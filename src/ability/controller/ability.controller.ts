@@ -1,6 +1,6 @@
+import { AbilityInputDto } from '@ability/dto/ability-input.dto';
 import { AbilityDto } from '@ability/dto/ability.dto';
-import { CreateAbilityDto } from '@ability/dto/create-ability.dto';
-import { UpdateAbilityDto } from '@ability/dto/update-ability.dto';
+import { Ability } from '@ability/entity/ability.entity';
 import { AbilityService } from '@ability/service/ability.service';
 import {
   BadRequestException,
@@ -9,7 +9,8 @@ import {
   Controller,
   Delete,
   Get,
-  LoggerService,
+  HttpCode,
+  Logger,
   Param,
   Patch,
   Post,
@@ -20,52 +21,89 @@ import { Response } from 'express';
 
 @Controller('abilities')
 export class AbilityController {
-  constructor(
-    private readonly abilityService: AbilityService,
-    private readonly logger: LoggerService
-  ) {}
+  private readonly LOGGER = new Logger(AbilityController.name);
+
+  constructor(private readonly abilityService: AbilityService) {}
 
   @Post()
-  async create(@Body() createAbilityDto: CreateAbilityDto) {
+  @HttpCode(201)
+  async create(@Body() abilityInputDto: AbilityInputDto): Promise<AbilityDto> {
     try {
-      const type = await this.abilityService.create(createAbilityDto);
+      const type = await this.abilityService.create(abilityInputDto);
       return new AbilityDto(type);
     } catch (error) {
+      this.LOGGER.error(`Create request failed because: ${error}`);
+
       if (error.code === MongoHttpStatus.DUPLICATE_KEY) {
         throw new ConflictException(
-          `An object with name ${createAbilityDto.name} already exists`
+          `An object with name ${abilityInputDto.name} already exists`
         );
       }
+
       throw new BadRequestException(error);
     }
   }
 
   @Get()
-  async findAll(@Res() res: Response) {
+  async findAll(@Res() res: Response): Promise<Response<AbilityDto>> {
     try {
       const abilities = await this.abilityService.findAll();
+
       if (!abilities || abilities.length === 0) {
         return res.status(204).send();
       }
+
       return res.status(200).send(abilities);
     } catch (error) {
-      this.logger.error(`FindAll request failed because: ${error}`);
+      this.LOGGER.error(`Cannot find all abilities because: ${error}`);
       throw new BadRequestException(error);
     }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.abilityService.find(id);
+  async findOne(@Param('id') id: string): Promise<AbilityDto> {
+    try {
+      const ability: Ability = await this.abilityService.find(id);
+
+      return new AbilityDto(ability);
+    } catch (error) {
+      this.LOGGER.error(
+        `Cannot find ability by its id ${id} because: ${error}`
+      );
+      throw new BadRequestException(error);
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAbilityDto: UpdateAbilityDto) {
-    return this.abilityService.update(id, updateAbilityDto);
+  @HttpCode(202)
+  async update(
+    @Param('id') id: string,
+    @Body() abilityInputDto: AbilityInputDto
+  ): Promise<AbilityDto> {
+    try {
+      const ability: Ability = await this.abilityService.update(
+        id,
+        abilityInputDto
+      );
+
+      return new AbilityDto(ability);
+    } catch (error) {
+      this.LOGGER.error(
+        `Cannot update ability with id ${id} because: ${error}`
+      );
+      throw new BadRequestException(error);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.abilityService.delete(id);
+  async remove(@Param('id') id: string): Promise<void> {
+    try {
+      await this.abilityService.delete(id);
+    } catch (error) {
+      this.LOGGER.error(
+        `Cannot delete ability with id ${id} because: ${error}`
+      );
+      throw new BadRequestException(error);
+    }
   }
 }

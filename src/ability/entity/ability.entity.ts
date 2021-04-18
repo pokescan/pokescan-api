@@ -7,6 +7,9 @@ export type AbilityDocument = Ability & Document;
 export class Ability {
   @Prop({ required: true, trim: true, unique: true })
   name: string;
+
+  @Prop({ required: true, trim: true, unique: true })
+  description: string;
 }
 
 export const AbilitySchema = SchemaFactory.createForClass(Ability);

@@ -1,14 +1,16 @@
-import { AbilityInterface } from '@ability/interface/ability.interface';
+import { IAbility } from '@ability/interface/ability.interface';
 import { CommonDto } from '@shared/models/common.dto';
 
 export class AbilityDto extends CommonDto {
-  name?: string;
+  name: string;
+  description: string;
 
-  constructor(model?: AbilityInterface) {
+  constructor(model?: IAbility) {
     super(model);
 
     if (model) {
       this.name = model.name;
+      this.description = model.description;
     }
   }
 }
