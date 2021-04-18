@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AbilityController } from './controller/ability.controller';
-import { Ability, AbilitySchema } from './entities/ability.entity';
+import { Ability, AbilitySchema } from './schema/ability.schema';
 import { AbilityService } from './service/ability.service';
 
 @Module({
