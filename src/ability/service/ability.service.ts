@@ -1,4 +1,4 @@
-import { Ability, AbilityDocument } from '@ability/entity/ability.entity';
+import { Ability, AbilityDocument } from '@ability/schema/ability.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { AbstractService } from '@shared/services/abstract/abstract.service';

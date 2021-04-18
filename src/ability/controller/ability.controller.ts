@@ -1,6 +1,6 @@
 import { AbilityInputDto } from '@ability/dto/ability-input.dto';
 import { AbilityDto } from '@ability/dto/ability.dto';
-import { Ability } from '@ability/entity/ability.entity';
+import { Ability } from '@ability/schema/ability.schema';
 import { AbilityService } from '@ability/service/ability.service';
 import {
   BadRequestException,
