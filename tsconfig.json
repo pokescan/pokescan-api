@@ -13,6 +13,7 @@
     "incremental": true,
     "paths": {
       "@ability/*": ["src/ability/*"],
+      "@pokemon-type/*": ["src/pokemon-type/*"],
       "@shared/*": ["src/shared/*"]
     }
   }
