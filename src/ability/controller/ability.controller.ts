@@ -29,8 +29,10 @@ export class AbilityController {
   @HttpCode(201)
   async create(@Body() abilityInputDto: AbilityInputDto): Promise<AbilityDto> {
     try {
-      const type = await this.abilityService.create(abilityInputDto);
-      return new AbilityDto(type);
+      const ability: Ability = await this.abilityService.create(
+        abilityInputDto
+      );
+      return new AbilityDto(ability);
     } catch (error) {
       this.LOGGER.error(`Create request failed because: ${error}`);
 
