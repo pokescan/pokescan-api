@@ -11,11 +11,15 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
+    "noImplicitAny": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false,
     "paths": {
       "@ability/*": ["src/ability/*"],
       "@generation/*": ["src/generation/*"],
       "@location/*": ["src/location/*"],
       "@region/*": ["src/region/*"],
+      "@pokemon-type/*": ["src/pokemon-type/*"],
       "@shared/*": ["src/shared/*"]
     }
   }

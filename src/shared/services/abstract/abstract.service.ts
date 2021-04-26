@@ -1,4 +1,4 @@
-import { Document, Model } from 'mongoose';
+import { Document, Model, UpdateQuery } from 'mongoose';
 
 export class AbstractService<M extends Document> {
   private readonly model: Model<M>;
@@ -6,7 +6,7 @@ export class AbstractService<M extends Document> {
     this.model = model;
   }
 
-  async create(dto: any): Promise<M> {
+  async create(dto: unknown): Promise<M> {
     const createdObject = new this.model(dto);
     return createdObject.save();
   }
@@ -23,7 +23,7 @@ export class AbstractService<M extends Document> {
     return this.model.find(queries).exec();
   }
 
-  update(id: string, obj?: any): Promise<M> {
+  update(id: string, obj?: UpdateQuery<M>): Promise<M> {
     return this.model.findByIdAndUpdate(id, obj, { new: true }).exec();
   }
 
