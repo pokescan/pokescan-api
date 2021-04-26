@@ -11,6 +11,9 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
+    "noImplicitAny": true,
+    "strictPropertyInitialization": true,
+    "strictNullChecks": true,
     "paths": {
       "@ability/*": ["src/ability/*"],
       "@pokemon-type/*": ["src/pokemon-type/*"],
