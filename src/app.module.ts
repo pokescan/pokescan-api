@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SharedModule } from '@shared/shared.module';
 import { AbilityModule } from './ability/ability.module';
+import { PokemonTypeModule } from './pokemon-type/pokemon-type.module';
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { AbilityModule } from './ability/ability.module';
       useNewUrlParser: true,
       useUnifiedTopology: true
     }),
-    AbilityModule
+    AbilityModule,
+    PokemonTypeModule
   ],
   controllers: [],
   providers: []
