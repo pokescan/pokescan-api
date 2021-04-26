@@ -13,6 +13,9 @@
     "incremental": true,
     "paths": {
       "@ability/*": ["src/ability/*"],
+      "@generation/*": ["src/generation/*"],
+      "@location/*": ["src/location/*"],
+      "@region/*": ["src/region/*"],
       "@shared/*": ["src/shared/*"]
     }
   }

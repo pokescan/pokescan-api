@@ -3,6 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SharedModule } from '@shared/shared.module';
 import { AbilityModule } from './ability/ability.module';
+import { RegionModule } from './region/region.module';
+import { LocationModule } from './location/location.module';
+import { GenerationModule } from './generation/generation.module';
 
 @Module({
   imports: [
@@ -12,7 +15,10 @@ import { AbilityModule } from './ability/ability.module';
       useNewUrlParser: true,
       useUnifiedTopology: true
     }),
-    AbilityModule
+    AbilityModule,
+    RegionModule,
+    LocationModule,
+    GenerationModule
   ],
   controllers: [],
   providers: []
