@@ -1,11 +1,7 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class AbilityInputDto {
+export class PokemonTypeInputDto {
   @IsString()
   @IsNotEmpty()
   name!: string;
-
-  @IsString()
-  @IsNotEmpty()
-  description!: string;
 }

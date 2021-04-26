@@ -1,6 +1,6 @@
 import { AbilityInputDto } from '@ability/dto/ability-input.dto';
 import { AbilityDto } from '@ability/dto/ability.dto';
-import { Ability } from '@ability/schema/ability.schema';
+import { Ability, AbilityDocument } from '@ability/schema/ability.schema';
 import { AbilityService } from '@ability/service/ability.service';
 import {
   BadRequestException,
@@ -29,7 +29,7 @@ export class AbilityController {
   @HttpCode(201)
   async create(@Body() abilityInputDto: AbilityInputDto): Promise<AbilityDto> {
     try {
-      const ability: Ability = await this.abilityService.create(
+      const ability: AbilityDocument = await this.abilityService.create(
         abilityInputDto
       );
       return new AbilityDto(ability);
@@ -49,7 +49,7 @@ export class AbilityController {
   @Get()
   async findAll(@Res() res: Response): Promise<Response<AbilityDto>> {
     try {
-      const abilities = await this.abilityService.findAll();
+      const abilities: AbilityDocument[] = await this.abilityService.findAll();
 
       if (!abilities || abilities.length === 0) {
         return res.status(204).send();

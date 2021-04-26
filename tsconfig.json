@@ -11,10 +11,17 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
+    "noImplicitAny": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": false,
     "paths": {
       "@ability/*": ["src/ability/*"],
+<<<<<<< HEAD
       "@pokemon-move/*": ["src/pokemon-move/*"],
       "@pokemon-move-detail/*": ["src/pokemon-move-details/*"],
+=======
+      "@pokemon-type/*": ["src/pokemon-type/*"],
+>>>>>>> master
       "@shared/*": ["src/shared/*"]
     }
   }

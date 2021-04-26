@@ -3,8 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SharedModule } from '@shared/shared.module';
 import { AbilityModule } from './ability/ability.module';
-import { PokemonMoveModule } from './pokemon-move/pokemon-move.module';
 import { PokemonMoveDetailModule } from './pokemon-move-detail/pokemon-move-detail.module';
+import { PokemonMoveModule } from './pokemon-move/pokemon-move.module';
+import { PokemonTypeModule } from './pokemon-type/pokemon-type.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { PokemonMoveDetailModule } from './pokemon-move-detail/pokemon-move-deta
     }),
     AbilityModule,
     PokemonMoveModule,
-    PokemonMoveDetailModule
+    PokemonMoveDetailModule,
+    PokemonTypeModule
   ],
   controllers: [],
   providers: []
