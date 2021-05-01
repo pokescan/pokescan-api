@@ -6,10 +6,10 @@ export type AbilityDocument = Ability & Document;
 @Schema({ timestamps: true, versionKey: false })
 export class Ability {
   @Prop({ required: true, trim: true, unique: true })
-  name!: string;
+  name: string;
 
-  @Prop({ required: true, trim: true, unique: true })
-  description!: string;
+  @Prop({ required: true, trim: true })
+  description: string;
 }
 
 export const AbilitySchema = SchemaFactory.createForClass(Ability);

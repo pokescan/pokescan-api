@@ -1,12 +1,12 @@
-import { Document, Model, UpdateQuery } from 'mongoose';
+import { Aggregate, Document, Model, UpdateQuery } from 'mongoose';
 
-export class AbstractService<M extends Document> {
+export class AbstractService<M extends Document, D> {
   private readonly model: Model<M>;
   constructor(model: Model<M>) {
     this.model = model;
   }
 
-  async create(dto: unknown): Promise<M> {
+  async create(dto: D): Promise<M> {
     const createdObject = new this.model(dto);
     return createdObject.save();
   }
@@ -21,6 +21,10 @@ export class AbstractService<M extends Document> {
 
   findByQueries(queries: any): Promise<M[]> {
     return this.model.find(queries).exec();
+  }
+
+  aggregate(aggregation: unknown[]): Aggregate<M[]> {
+    return this.model.aggregate(aggregation);
   }
 
   update(id: string, obj?: UpdateQuery<M>): Promise<M> {

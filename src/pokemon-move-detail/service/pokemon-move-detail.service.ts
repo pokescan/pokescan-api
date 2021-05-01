@@ -1,26 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePokemonMoveDetailDto } from './dto/create-pokemon-move-detail.dto';
-import { UpdatePokemonMoveDetailDto } from './dto/update-pokemon-move-detail.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { PokemonMoveDetailInputDto } from '@pokemon-move-detail/dto/pokemon-move-detail-input.dto';
+import {
+  PokemonMoveDetail,
+  PokemonMoveDetailDocument
+} from '@pokemon-move-detail/schema/pokemon-move-detail.schema';
+import { AbstractService } from '@shared/services/abstract/abstract.service';
+import { Model } from 'mongoose';
 
 @Injectable()
-export class PokemonMoveDetailService {
-  create(createPokemonMoveDetailDto: CreatePokemonMoveDetailDto) {
-    return 'This action adds a new pokemonMoveDetail';
-  }
-
-  findAll() {
-    return `This action returns all pokemonMoveDetail`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} pokemonMoveDetail`;
-  }
-
-  update(id: number, updatePokemonMoveDetailDto: UpdatePokemonMoveDetailDto) {
-    return `This action updates a #${id} pokemonMoveDetail`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} pokemonMoveDetail`;
+export class PokemonMoveDetailService extends AbstractService<
+  PokemonMoveDetailDocument,
+  PokemonMoveDetailInputDto
+> {
+  constructor(
+    @InjectModel(PokemonMoveDetail.name)
+    pokemonMoveDetailModel: Model<PokemonMoveDetailDocument>
+  ) {
+    super(pokemonMoveDetailModel);
   }
 }

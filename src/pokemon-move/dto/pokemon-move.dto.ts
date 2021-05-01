@@ -4,7 +4,6 @@ import { IPokemonMove } from '../interface/pokemon-move.interface';
 export class PokemonMoveDto extends CommonDto {
   name: string;
   description: string;
-  moveDetails: unknown;
 
   constructor(model?: IPokemonMove) {
     super(model);

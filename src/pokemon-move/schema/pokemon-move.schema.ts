@@ -8,11 +8,8 @@ export class PokemonMove {
   @Prop({ required: true, trim: true, unique: true })
   name: string;
 
-  @Prop({ required: true, trim: true, unique: true })
+  @Prop({ required: true, trim: true })
   description: string;
-
-  // @Prop({ required: true, trim: true, unique: true })
-  // moveDetails: unknown;
 }
 
 export const PokemonMoveSchema = SchemaFactory.createForClass(PokemonMove);

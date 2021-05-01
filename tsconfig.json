@@ -17,7 +17,7 @@
     "paths": {
       "@ability/*": ["src/ability/*"],
       "@pokemon-move/*": ["src/pokemon-move/*"],
-      "@pokemon-move-detail/*": ["src/pokemon-move-details/*"],
+      "@pokemon-move-detail/*": ["src/pokemon-move-detail/*"],
       "@pokemon-type/*": ["src/pokemon-type/*"],
       "@shared/*": ["src/shared/*"]
     }
