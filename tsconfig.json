@@ -19,6 +19,7 @@
       "@generation/*": ["src/generation/*"],
       "@location/*": ["src/location/*"],
       "@region/*": ["src/region/*"],
+      "@pokemon-stat/*": ["src/pokemon-stat/*"],
       "@pokemon-type/*": ["src/pokemon-type/*"],
       "@shared/*": ["src/shared/*"]
     }
