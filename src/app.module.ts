@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { RegionModule } from '@region/region.module';
 import { SharedModule } from '@shared/shared.module';
 import { PokemonTypeModule } from './pokemon-type/pokemon-type.module';
+import { PokemonStatModule } from './pokemon-stat/pokemon-stat.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { PokemonTypeModule } from './pokemon-type/pokemon-type.module';
     RegionModule,
     LocationModule,
     GenerationModule,
-    PokemonTypeModule
+    PokemonTypeModule,
+    PokemonStatModule
   ],
   controllers: [],
   providers: []
