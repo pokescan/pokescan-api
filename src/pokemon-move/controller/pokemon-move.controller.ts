@@ -124,7 +124,7 @@ export class PokemonMoveController {
       }
 
       const pokemonMoveDetail: PokemonMoveDetailDocument = await this.pokemonMoveDetailService.create(
-        pokemonMoveDetailInput
+        { ...pokemonMoveDetailInput, pokemonMove }
       );
 
       return new PokemonMoveDetailDto(pokemonMoveDetail);

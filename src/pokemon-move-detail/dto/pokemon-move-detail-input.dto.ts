@@ -18,7 +18,6 @@ export class PokemonMoveDetailInputDto {
   @IsNotEmpty()
   pokemonType?: PokemonTypeDto;
 
-  @IsNotEmpty()
   pokemonMove?: PokemonMoveDto;
 
   @IsNumber()
