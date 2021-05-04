@@ -16,10 +16,15 @@
     "strictNullChecks": false,
     "paths": {
       "@ability/*": ["src/ability/*"],
+<<<<<<< HEAD
+      "@pokemon-move/*": ["src/pokemon-move/*"],
+      "@pokemon-move-detail/*": ["src/pokemon-move-detail/*"],
+=======
       "@generation/*": ["src/generation/*"],
       "@location/*": ["src/location/*"],
       "@region/*": ["src/region/*"],
       "@pokemon-stat/*": ["src/pokemon-stat/*"],
+>>>>>>> master
       "@pokemon-type/*": ["src/pokemon-type/*"],
       "@shared/*": ["src/shared/*"]
     }

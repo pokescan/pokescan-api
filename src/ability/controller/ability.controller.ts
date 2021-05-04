@@ -1,6 +1,6 @@
 import { AbilityInputDto } from '@ability/dto/ability-input.dto';
 import { AbilityDto } from '@ability/dto/ability.dto';
-import { Ability, AbilityDocument } from '@ability/schema/ability.schema';
+import { AbilityDocument } from '@ability/schema/ability.schema';
 import { AbilityService } from '@ability/service/ability.service';
 import {
   BadRequestException,
@@ -65,7 +65,7 @@ export class AbilityController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<AbilityDto> {
     try {
-      const ability: Ability = await this.abilityService.find(id);
+      const ability: AbilityDocument = await this.abilityService.find(id);
 
       return new AbilityDto(ability);
     } catch (error) {
@@ -83,7 +83,7 @@ export class AbilityController {
     @Body() abilityInputDto: AbilityInputDto
   ): Promise<AbilityDto> {
     try {
-      const ability: Ability = await this.abilityService.update(
+      const ability: AbilityDocument = await this.abilityService.update(
         id,
         abilityInputDto
       );

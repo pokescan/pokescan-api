@@ -6,8 +6,10 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { RegionModule } from '@region/region.module';
 import { SharedModule } from '@shared/shared.module';
-import { PokemonTypeModule } from './pokemon-type/pokemon-type.module';
+import { PokemonMoveDetailModule } from './pokemon-move-detail/pokemon-move-detail.module';
+import { PokemonMoveModule } from './pokemon-move/pokemon-move.module';
 import { PokemonStatModule } from './pokemon-stat/pokemon-stat.module';
+import { PokemonTypeModule } from './pokemon-type/pokemon-type.module';
 
 @Module({
   imports: [
@@ -18,10 +20,12 @@ import { PokemonStatModule } from './pokemon-stat/pokemon-stat.module';
       useUnifiedTopology: true
     }),
     AbilityModule,
+    PokemonMoveModule,
+    PokemonMoveDetailModule,
+    PokemonTypeModule,
     RegionModule,
     LocationModule,
     GenerationModule,
-    PokemonTypeModule,
     PokemonStatModule
   ],
   controllers: [],
