@@ -1,4 +1,4 @@
-import { Aggregate, Document, Model, UpdateQuery } from 'mongoose';
+import { Aggregate, Document, Model } from 'mongoose';
 
 export class AbstractService<M extends Document, D> {
   private readonly model: Model<M>;
@@ -27,7 +27,7 @@ export class AbstractService<M extends Document, D> {
     return this.model.aggregate(aggregation);
   }
 
-  update(id: string, obj?: UpdateQuery<M>): Promise<M> {
+  update(id: string, obj?: any): Promise<M> {
     return this.model.findByIdAndUpdate(id, obj, { new: true }).exec();
   }
 
