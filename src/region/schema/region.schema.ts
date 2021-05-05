@@ -14,7 +14,7 @@ export class Region {
     required: true,
     type: [Types.ObjectId],
     ref: Location.name,
-    autopupulate: true
+    autopopulate: true
   })
   locations: Location[];
 
