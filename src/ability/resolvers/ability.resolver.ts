@@ -1,33 +1,21 @@
-import { AbilityInputDto } from '@ability/dto/ability-input.dto';
-import { AbilityDto } from '@ability/dto/ability.dto';
-import { AbilityDocument } from '@ability/schema/ability.schema';
-import { AbilityService } from '@ability/service/ability.service';
-import {
-  BadRequestException,
-  Body,
-  ConflictException,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  Logger,
-  Param,
-  Patch,
-  Post,
-  Res
-} from '@nestjs/common';
+import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
-import { Response } from 'express';
+import { AbilityInputDto } from '../dto/ability-input.dto';
+import { AbilityDto } from '../dto/ability.dto';
+import { AbilityDocument } from '../schema/ability.schema';
+import { AbilityService } from '../service/ability.service';
 
-@Controller('abilities')
-export class AbilityController {
-  private readonly LOGGER = new Logger(AbilityController.name);
+@Resolver(() => AbilityDto)
+export class AbilityResolver {
+  private readonly LOGGER = new Logger(AbilityResolver.name);
 
   constructor(private readonly abilityService: AbilityService) {}
 
-  @Post()
-  @HttpCode(201)
-  async create(@Body() abilityInputDto: AbilityInputDto): Promise<AbilityDto> {
+  @Mutation(() => AbilityDto)
+  async createAbility(
+    @Args('abilityInputDto') abilityInputDto: AbilityInputDto
+  ): Promise<AbilityDto> {
     try {
       const ability: AbilityDocument = await this.abilityService.create(
         abilityInputDto
@@ -46,24 +34,22 @@ export class AbilityController {
     }
   }
 
-  @Get()
-  async findAll(@Res() res: Response): Promise<Response<AbilityDto>> {
+  @Query(() => [AbilityDto], { name: 'abilities' })
+  async findAll(): Promise<AbilityDto[]> {
     try {
       const abilities: AbilityDocument[] = await this.abilityService.findAll();
 
-      if (!abilities || abilities.length === 0) {
-        return res.status(204).send();
-      }
-
-      return res.status(200).send(abilities);
+      return abilities.map(ability => new AbilityDto(ability));
     } catch (error) {
       this.LOGGER.error(`Cannot find all abilities because: ${error}`);
       throw new BadRequestException(error);
     }
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<AbilityDto> {
+  @Query(() => AbilityDto, { name: 'ability' })
+  async findOne(
+    @Args('id', { type: () => String }) id: string
+  ): Promise<AbilityDto> {
     try {
       const ability: AbilityDocument = await this.abilityService.find(id);
 
@@ -76,11 +62,10 @@ export class AbilityController {
     }
   }
 
-  @Patch(':id')
-  @HttpCode(202)
-  async update(
-    @Param('id') id: string,
-    @Body() abilityInputDto: AbilityInputDto
+  @Mutation(() => AbilityDto)
+  async updateAbility(
+    @Args('id') id: string,
+    @Args('abilityInputDto') abilityInputDto: AbilityInputDto
   ): Promise<AbilityDto> {
     try {
       const ability: AbilityDocument = await this.abilityService.update(
@@ -97,8 +82,10 @@ export class AbilityController {
     }
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<void> {
+  @Mutation(() => AbilityDto)
+  async removeAbility(
+    @Args('id', { type: () => String }) id: string
+  ): Promise<void> {
     try {
       await this.abilityService.delete(id);
     } catch (error) {

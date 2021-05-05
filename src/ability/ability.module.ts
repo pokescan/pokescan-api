@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AbilityController } from './controller/ability.controller';
+import { AbilityResolver } from './resolvers/ability.resolver';
 import { Ability, AbilitySchema } from './schema/ability.schema';
 import { AbilityService } from './service/ability.service';
 
@@ -8,7 +8,6 @@ import { AbilityService } from './service/ability.service';
   imports: [
     MongooseModule.forFeature([{ name: Ability.name, schema: AbilitySchema }])
   ],
-  controllers: [AbilityController],
-  providers: [AbilityService]
+  providers: [AbilityResolver, AbilityService]
 })
 export class AbilityModule {}

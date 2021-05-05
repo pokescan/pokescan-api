@@ -1,11 +1,15 @@
+import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, IsString } from 'class-validator';
 
+@InputType()
 export class AbilityInputDto {
   @IsString()
   @IsNotEmpty()
-  name!: string;
+  @Field({ description: 'Name of the ability' })
+  name: string;
 
   @IsString()
   @IsNotEmpty()
-  description!: string;
+  @Field({ description: 'Description of the ability' })
+  description: string;
 }

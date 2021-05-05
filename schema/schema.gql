@@ -1,0 +1,39 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AbilityDto {
+  """Creation date for object"""
+  createdAt: String!
+
+  """Description of the ability"""
+  description: String!
+
+  """Id of the object"""
+  id: ID!
+
+  """Name of the ability"""
+  name: String!
+
+  """Latest update date for object"""
+  updatedAt: String!
+}
+
+input AbilityInputDto {
+  """Description of the ability"""
+  description: String!
+
+  """Name of the ability"""
+  name: String!
+}
+
+type Mutation {
+  createAbility(abilityInputDto: AbilityInputDto!): AbilityDto!
+  removeAbility(id: String!): AbilityDto!
+  updateAbility(abilityInputDto: AbilityInputDto!, id: String!): AbilityDto!
+}
+
+type Query {
+  abilities: [AbilityDto!]!
+  ability(id: String!): AbilityDto!
+}
