@@ -1,5 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
+/* eslint-disable jest/expect-expect */
 import { INestApplication } from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 
@@ -16,6 +17,7 @@ describe('AppController (e2e)', () => {
   });
 
   it('/ (GET)', () => {
+    // eslint-disable-next-line jest/no-test-return-statement
     return request(app.getHttpServer())
       .get('/')
       .expect(200)

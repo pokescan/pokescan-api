@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RegionController } from './controller/region.controller';
+import { RegionResolver } from './resolvers/region.resolver';
 import { Region, RegionSchema } from './schema/region.schema';
 import { RegionService } from './service/region.service';
 
@@ -8,7 +8,6 @@ import { RegionService } from './service/region.service';
   imports: [
     MongooseModule.forFeature([{ name: Region.name, schema: RegionSchema }])
   ],
-  controllers: [RegionController],
-  providers: [RegionService]
+  providers: [RegionService, RegionResolver]
 })
 export class RegionModule {}

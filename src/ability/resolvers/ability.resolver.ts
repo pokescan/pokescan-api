@@ -84,9 +84,7 @@ export class AbilityResolver {
   }
 
   @Mutation(() => AbilityDto, { nullable: true })
-  async removeAbility(
-    @Args('id', { type: () => String }) id: string
-  ): Promise<void> {
+  async removeAbility(@Args('id') id: string): Promise<void> {
     try {
       await this.abilityService.delete(id);
     } catch (error) {
