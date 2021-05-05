@@ -19,7 +19,7 @@ type AbilityDto {
   updatedAt: String!
 }
 
-input AbilityInputDto {
+input CreateAbilityDto {
   """Description of the ability"""
   description: String!
 
@@ -27,13 +27,41 @@ input AbilityInputDto {
   name: String!
 }
 
+type GenerationDto {
+  """Creation date for object"""
+  createdAt: String!
+
+  """Id of the object"""
+  id: ID!
+
+  """The order of the generation"""
+  order: Int!
+
+  """Latest update date for object"""
+  updatedAt: String!
+}
+
+input GenerationInputDto {
+  """The order of the generation"""
+  order: Int!
+}
+
 type Mutation {
-  createAbility(abilityInputDto: AbilityInputDto!): AbilityDto!
-  removeAbility(id: String!): AbilityDto!
-  updateAbility(abilityInputDto: AbilityInputDto!, id: String!): AbilityDto!
+  createAbility(abilityInputDto: CreateAbilityDto!): AbilityDto!
+  createGeneration(generationInputDto: GenerationInputDto!): GenerationDto!
+  removeAbility(id: String!): AbilityDto
+  removeGeneration(id: String!): GenerationDto
+  updateAbility(abilityInputDto: UpdateAbilityDto!, id: String!): AbilityDto!
 }
 
 type Query {
   abilities: [AbilityDto!]!
   ability(id: String!): AbilityDto!
+  generation(id: String!): GenerationDto!
+  generations: [GenerationDto!]!
+}
+
+input UpdateAbilityDto {
+  """Description of the ability"""
+  description: String!
 }

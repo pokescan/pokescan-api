@@ -1,8 +1,9 @@
+import { UpdateAbilityDto } from '@ability/dto/update-ability.dto';
 import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
-import { AbilityInputDto } from '../dto/ability-input.dto';
 import { AbilityDto } from '../dto/ability.dto';
+import { CreateAbilityDto } from '../dto/create-ability.dto';
 import { AbilityDocument } from '../schema/ability.schema';
 import { AbilityService } from '../service/ability.service';
 
@@ -14,7 +15,7 @@ export class AbilityResolver {
 
   @Mutation(() => AbilityDto)
   async createAbility(
-    @Args('abilityInputDto') abilityInputDto: AbilityInputDto
+    @Args('abilityInputDto') abilityInputDto: CreateAbilityDto
   ): Promise<AbilityDto> {
     try {
       const ability: AbilityDocument = await this.abilityService.create(
@@ -65,7 +66,7 @@ export class AbilityResolver {
   @Mutation(() => AbilityDto)
   async updateAbility(
     @Args('id') id: string,
-    @Args('abilityInputDto') abilityInputDto: AbilityInputDto
+    @Args('abilityInputDto') abilityInputDto: UpdateAbilityDto
   ): Promise<AbilityDto> {
     try {
       const ability: AbilityDocument = await this.abilityService.update(
@@ -82,7 +83,7 @@ export class AbilityResolver {
     }
   }
 
-  @Mutation(() => AbilityDto)
+  @Mutation(() => AbilityDto, { nullable: true })
   async removeAbility(
     @Args('id', { type: () => String }) id: string
   ): Promise<void> {
@@ -92,6 +93,7 @@ export class AbilityResolver {
       this.LOGGER.error(
         `Cannot delete ability with id ${id} because: ${error}`
       );
+
       throw new BadRequestException(error);
     }
   }
