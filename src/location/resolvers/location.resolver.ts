@@ -1,33 +1,21 @@
+import { AbilityDto } from '@ability/dto/ability.dto';
+import { LocationInputDto } from '@location/dto/location-input.dto';
 import { LocationDto } from '@location/dto/location.dto';
-import { Location } from '@location/schema/location.schema';
-import {
-  BadRequestException,
-  Body,
-  ConflictException,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  Logger,
-  Param,
-  Patch,
-  Post,
-  Res
-} from '@nestjs/common';
+import { LocationDocument } from '@location/schema/location.schema';
+import { LocationService } from '@location/service/location.service';
+import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
-import { Response } from 'express';
-import { LocationInputDto } from '../dto/location-input.dto';
-import { LocationService } from '../service/location.service';
 
-@Controller('location')
-export class LocationController {
-  private readonly LOGGER = new Logger(Location.name);
+@Resolver(() => LocationDto)
+export class LocationResolver {
+  private readonly LOGGER = new Logger(LocationResolver.name);
+
   constructor(private readonly locationService: LocationService) {}
 
-  @Post()
-  @HttpCode(201)
-  async create(
-    @Body() locationInputDto: LocationInputDto
+  @Mutation(() => LocationDto)
+  async createLocation(
+    @Args('locationInputDto') locationInputDto: LocationInputDto
   ): Promise<LocationDto> {
     try {
       const location = await this.locationService.create(locationInputDto);
@@ -45,26 +33,22 @@ export class LocationController {
     }
   }
 
-  @Get()
-  async findAll(@Res() res: Response): Promise<Response<LocationDto>> {
+  @Query(() => [LocationDto], { name: 'locations' })
+  async findAll(): Promise<LocationDto[]> {
     try {
-      const locations = await this.locationService.findAll();
+      const locations: LocationDocument[] = await this.locationService.findAll();
 
-      if (!locations || locations.length === 0) {
-        return res.status(204).send();
-      }
-
-      return res.status(200).send(locations);
+      return locations.map(location => new LocationDto(location));
     } catch (error) {
       this.LOGGER.error(`Cannot find all locations because: ${error}`);
       throw new BadRequestException(error);
     }
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<LocationDto> {
+  @Query(() => LocationDto, { name: 'location' })
+  async findOne(@Args('id') id: string): Promise<LocationDto> {
     try {
-      const location: Location = await this.locationService.find(id);
+      const location: LocationDocument = await this.locationService.find(id);
 
       return new LocationDto(location);
     } catch (error) {
@@ -75,13 +59,13 @@ export class LocationController {
     }
   }
 
-  @Patch(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() locationInputDto: LocationInputDto
-  ): Promise<LocationInputDto> {
+  @Mutation(() => LocationDto)
+  async updateLocation(
+    @Args('id') id: string,
+    @Args('locationInputDto') locationInputDto: LocationInputDto
+  ): Promise<LocationDto> {
     try {
-      const location: Location = await this.locationService.update(
+      const location: LocationDocument = await this.locationService.update(
         id,
         locationInputDto
       );
@@ -95,8 +79,8 @@ export class LocationController {
     }
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<void> {
+  @Mutation(() => AbilityDto, { nullable: true })
+  async removeLocation(@Args('id') id: string): Promise<void> {
     try {
       await this.locationService.delete(id);
     } catch (error) {

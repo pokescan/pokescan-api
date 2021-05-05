@@ -46,12 +46,34 @@ input GenerationInputDto {
   order: Int!
 }
 
+type LocationDto {
+  """Creation date for object"""
+  createdAt: String!
+
+  """Id of the object"""
+  id: ID!
+
+  """Name of the location"""
+  name: String!
+
+  """Latest update date for object"""
+  updatedAt: String!
+}
+
+input LocationInputDto {
+  """Name of the location"""
+  name: String!
+}
+
 type Mutation {
   createAbility(abilityInputDto: CreateAbilityDto!): AbilityDto!
   createGeneration(generationInputDto: GenerationInputDto!): GenerationDto!
+  createLocation(locationInputDto: LocationInputDto!): LocationDto!
   removeAbility(id: String!): AbilityDto
   removeGeneration(id: String!): GenerationDto
+  removeLocation(id: String!): AbilityDto
   updateAbility(abilityInputDto: UpdateAbilityDto!, id: String!): AbilityDto!
+  updateLocation(id: String!, locationInputDto: LocationInputDto!): LocationDto!
 }
 
 type Query {
@@ -59,6 +81,8 @@ type Query {
   ability(id: String!): AbilityDto!
   generation(id: String!): GenerationDto!
   generations: [GenerationDto!]!
+  location(id: String!): LocationDto!
+  locations: [LocationDto!]!
 }
 
 input UpdateAbilityDto {
