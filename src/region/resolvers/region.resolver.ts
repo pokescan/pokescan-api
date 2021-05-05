@@ -1,32 +1,21 @@
-import {
-  BadRequestException,
-  Body,
-  ConflictException,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  Logger,
-  Param,
-  Patch,
-  Post,
-  Res
-} from '@nestjs/common';
+import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { RegionInputDto } from '@region/dto/region-input.dto';
 import { RegionDto } from '@region/dto/region.dto';
-import { Region } from '@region/schema/region.schema';
+import { RegionDocument } from '@region/schema/region.schema';
 import { RegionService } from '@region/service/region.service';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
-import { Response } from 'express';
 
-@Controller('regions')
-export class RegionController {
-  private readonly LOGGER = new Logger(RegionController.name);
+@Resolver(() => RegionDto)
+export class RegionResolver {
+  private readonly LOGGER = new Logger(RegionResolver.name);
+
   constructor(private readonly regionService: RegionService) {}
 
-  @Post()
-  @HttpCode(201)
-  async create(@Body() regionInputDto: RegionInputDto): Promise<RegionDto> {
+  @Mutation(() => RegionDto)
+  async createAbility(
+    @Args('regionInputDto') regionInputDto: RegionInputDto
+  ): Promise<RegionDto> {
     try {
       const region = await this.regionService.create(regionInputDto);
       return new RegionDto(region);
@@ -43,42 +32,40 @@ export class RegionController {
     }
   }
 
-  @Get()
-  async findAll(@Res() res: Response): Promise<Response<RegionDto>> {
+  @Query(() => [RegionDto], { name: 'regions' })
+  async findAll(): Promise<RegionDto[]> {
     try {
-      const regions = await this.regionService.findAll();
+      const regions: RegionDocument[] = await this.regionService.findAll();
 
-      if (!regions || regions.length === 0) {
-        return res.status(204).send();
-      }
-
-      return res.status(200).send(regions);
+      return regions.map(region => new RegionDto(region));
     } catch (error) {
       this.LOGGER.error(`Cannot find all regions because: ${error}`);
       throw new BadRequestException(error);
     }
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<RegionDto> {
+  @Query(() => RegionDto, { name: 'region' })
+  async findOne(
+    @Args('id', { type: () => String }) id: string
+  ): Promise<RegionDto> {
     try {
-      const region: Region = await this.regionService.find(id);
+      const region: RegionDocument = await this.regionService.find(id);
 
       return new RegionDto(region);
     } catch (error) {
       this.LOGGER.error(`Cannot find region by its id ${id} because: ${error}`);
+
       throw new BadRequestException(error);
     }
   }
 
-  @Patch(':id')
-  @HttpCode(202)
-  async update(
-    @Param('id') id: string,
-    @Body() regionInputDto: RegionInputDto
+  @Mutation(() => RegionDto)
+  async updateAbility(
+    @Args('id') id: string,
+    @Args('regionInputDto') regionInputDto: RegionInputDto
   ): Promise<RegionDto> {
     try {
-      const region: Region = await this.regionService.update(
+      const region: RegionDocument = await this.regionService.update(
         id,
         regionInputDto
       );
@@ -86,16 +73,18 @@ export class RegionController {
       return new RegionDto(region);
     } catch (error) {
       this.LOGGER.error(`Cannot update region with id ${id} because: ${error}`);
+
       throw new BadRequestException(error);
     }
   }
 
-  @Delete(':id')
-  async remove(@Param('id') id: string): Promise<void> {
+  @Mutation(() => RegionDto, { nullable: true })
+  async removeAbility(@Args('id') id: string): Promise<void> {
     try {
       await this.regionService.delete(id);
     } catch (error) {
       this.LOGGER.error(`Cannot delete region with id ${id} because: ${error}`);
+
       throw new BadRequestException(error);
     }
   }
