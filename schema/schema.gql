@@ -3,89 +3,216 @@
 # ------------------------------------------------------
 
 type AbilityDto {
-  """Creation date for object"""
-  createdAt: String!
-
-  """Description of the ability"""
-  description: String!
-
-  """Id of the object"""
+  """
+  Id of the object
+  """
   id: ID!
 
-  """Name of the ability"""
-  name: String!
-
-  """Latest update date for object"""
+  """
+  Latest update date for object
+  """
   updatedAt: String!
-}
 
-input CreateAbilityDto {
-  """Description of the ability"""
-  description: String!
+  """
+  Creation date for object
+  """
+  createdAt: String!
 
-  """Name of the ability"""
+  """
+  Name of the ability
+  """
   name: String!
+
+  """
+  Description of the ability
+  """
+  description: String!
 }
 
 type GenerationDto {
-  """Creation date for object"""
-  createdAt: String!
-
-  """Id of the object"""
+  """
+  Id of the object
+  """
   id: ID!
 
-  """The order of the generation"""
-  order: Int!
-
-  """Latest update date for object"""
+  """
+  Latest update date for object
+  """
   updatedAt: String!
-}
 
-input GenerationInputDto {
-  """The order of the generation"""
+  """
+  Creation date for object
+  """
+  createdAt: String!
+
+  """
+  The order of the generation
+  """
   order: Int!
 }
 
 type LocationDto {
-  """Creation date for object"""
-  createdAt: String!
-
-  """Id of the object"""
+  """
+  Id of the object
+  """
   id: ID!
 
-  """Name of the location"""
-  name: String!
-
-  """Latest update date for object"""
+  """
+  Latest update date for object
+  """
   updatedAt: String!
-}
 
-input LocationInputDto {
-  """Name of the location"""
+  """
+  Creation date for object
+  """
+  createdAt: String!
+
+  """
+  Name of the location
+  """
   name: String!
 }
 
-type Mutation {
-  createAbility(abilityInputDto: CreateAbilityDto!): AbilityDto!
-  createGeneration(generationInputDto: GenerationInputDto!): GenerationDto!
-  createLocation(locationInputDto: LocationInputDto!): LocationDto!
-  removeAbility(id: String!): AbilityDto
-  removeGeneration(id: String!): GenerationDto
-  removeLocation(id: String!): AbilityDto
-  updateAbility(abilityInputDto: UpdateAbilityDto!, id: String!): AbilityDto!
-  updateLocation(id: String!, locationInputDto: LocationInputDto!): LocationDto!
+type PokemonTypeDto {
+  """
+  Id of the object
+  """
+  id: ID!
+
+  """
+  Latest update date for object
+  """
+  updatedAt: String!
+
+  """
+  Creation date for object
+  """
+  createdAt: String!
+
+  """
+  Name of the pokemon type
+  """
+  name: String!
+}
+
+type RegionDto {
+  """
+  Id of the object
+  """
+  id: ID!
+
+  """
+  Latest update date for object
+  """
+  updatedAt: String!
+
+  """
+  Creation date for object
+  """
+  createdAt: String!
+
+  """
+  Name of the region
+  """
+  name: String!
+
+  """
+  Locations that are related to the region
+  """
+  locations: [LocationDto!]!
+
+  """
+  Generated related to the region
+  """
+  generation: GenerationDto!
 }
 
 type Query {
   abilities: [AbilityDto!]!
   ability(id: String!): AbilityDto!
-  generation(id: String!): GenerationDto!
-  generations: [GenerationDto!]!
-  location(id: String!): LocationDto!
+  pokemonTypes: [PokemonTypeDto!]!
+  pokemonType(id: String!): PokemonTypeDto!
+  regions: [RegionDto!]!
+  region(id: String!): RegionDto!
   locations: [LocationDto!]!
+  location(id: String!): LocationDto!
+  generations: [GenerationDto!]!
+  generation(id: String!): GenerationDto!
+}
+
+type Mutation {
+  createAbility(abilityInputDto: CreateAbilityDto!): AbilityDto!
+  updateAbility(abilityInputDto: UpdateAbilityDto!, id: String!): AbilityDto!
+  removeAbility(id: String!): AbilityDto
+  createPokemonType(pokemonTypeInputDto: PokemonTypeInputDto!): PokemonTypeDto!
+  updatePokemonType(
+    pokemonTypeInputDto: PokemonTypeInputDto!
+    id: String!
+  ): PokemonTypeDto!
+  removePokemonType(id: String!): PokemonTypeDto
+  createRegion(regionInputDto: RegionInputDto!): RegionDto!
+  updateRegion(regionInputDto: RegionInputDto!, id: String!): RegionDto!
+  removeRegion(id: String!): RegionDto
+  createLocation(locationInputDto: LocationInputDto!): LocationDto!
+  updateLocation(locationInputDto: LocationInputDto!, id: String!): LocationDto!
+  removeLocation(id: String!): AbilityDto
+  createGeneration(generationInputDto: GenerationInputDto!): GenerationDto!
+  removeGeneration(id: String!): GenerationDto
+}
+
+input CreateAbilityDto {
+  """
+  Name of the ability
+  """
+  name: String!
+
+  """
+  Description of the ability
+  """
+  description: String!
 }
 
 input UpdateAbilityDto {
-  """Description of the ability"""
+  """
+  Description of the ability
+  """
   description: String!
+}
+
+input PokemonTypeInputDto {
+  """
+  Name of the pokemon type
+  """
+  name: String!
+}
+
+input RegionInputDto {
+  """
+  Name of the region
+  """
+  name: String!
+
+  """
+  Locations that are related to the region
+  """
+  locations: [String!]!
+
+  """
+  Locations that are related to the region
+  """
+  generation: String!
+}
+
+input LocationInputDto {
+  """
+  Name of the location
+  """
+  name: String!
+}
+
+input GenerationInputDto {
+  """
+  The order of the generation
+  """
+  order: Int!
 }

@@ -13,7 +13,7 @@ export class RegionResolver {
   constructor(private readonly regionService: RegionService) {}
 
   @Mutation(() => RegionDto)
-  async createAbility(
+  async createRegion(
     @Args('regionInputDto') regionInputDto: RegionInputDto
   ): Promise<RegionDto> {
     try {
@@ -60,7 +60,7 @@ export class RegionResolver {
   }
 
   @Mutation(() => RegionDto)
-  async updateAbility(
+  async updateRegion(
     @Args('id') id: string,
     @Args('regionInputDto') regionInputDto: RegionInputDto
   ): Promise<RegionDto> {
@@ -79,7 +79,7 @@ export class RegionResolver {
   }
 
   @Mutation(() => RegionDto, { nullable: true })
-  async removeAbility(@Args('id') id: string): Promise<void> {
+  async removeRegion(@Args('id') id: string): Promise<void> {
     try {
       await this.regionService.delete(id);
     } catch (error) {

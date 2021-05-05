@@ -22,7 +22,6 @@ import { SharedModule } from '@shared/shared.module';
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema/schema.gql',
-      sortSchema: true,
       debug: true,
       playground: true
     }),
