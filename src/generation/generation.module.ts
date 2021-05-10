@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { GenerationController } from './controller/generation.controller';
+import { GenerationResolver } from './resolvers/generation.resolver';
 import { Generation, GenerationSchema } from './schema/generation.schema';
 import { GenerationService } from './service/generation.service';
 
@@ -10,7 +10,6 @@ import { GenerationService } from './service/generation.service';
       { name: Generation.name, schema: GenerationSchema }
     ])
   ],
-  controllers: [GenerationController],
-  providers: [GenerationService]
+  providers: [GenerationResolver, GenerationService]
 })
 export class GenerationModule {}

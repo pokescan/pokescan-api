@@ -1,5 +1,4 @@
 import { Generation } from '@generation/schema/generation.schema';
-import { Location } from '@location/schema/location.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
@@ -9,14 +8,6 @@ export type RegionDocument = Region & Document;
 export class Region {
   @Prop({ required: true, trim: true, unique: true })
   name: string;
-
-  @Prop({
-    required: true,
-    type: [Types.ObjectId],
-    ref: Location.name,
-    autopupulate: true
-  })
-  locations: Location[];
 
   @Prop({
     required: true,

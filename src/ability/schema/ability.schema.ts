@@ -8,7 +8,7 @@ export class Ability {
   @Prop({ required: true, trim: true, unique: true })
   name: string;
 
-  @Prop({ required: true, trim: true })
+  @Prop({ required: true, trim: true, unique: false })
   description: string;
 }
 

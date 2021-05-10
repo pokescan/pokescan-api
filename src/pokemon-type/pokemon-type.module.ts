@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PokemonTypeController } from './controller/pokemon-type.controller';
+import { PokemonTypeResolver } from './resolvers/pokemon-type.resolver';
 import { PokemonType, PokemonTypeSchema } from './schema/pokemon-type.schema';
 import { PokemonTypeService } from './service/pokemon-type.service';
 
@@ -13,7 +13,6 @@ import { PokemonTypeService } from './service/pokemon-type.service';
       }
     ])
   ],
-  controllers: [PokemonTypeController],
-  providers: [PokemonTypeService]
+  providers: [PokemonTypeService, PokemonTypeResolver]
 })
 export class PokemonTypeModule {}

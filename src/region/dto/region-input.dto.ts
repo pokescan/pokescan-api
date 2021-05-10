@@ -1,17 +1,17 @@
-import { Type } from 'class-transformer';
-import { ArrayNotEmpty, IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { Field, InputType } from '@nestjs/graphql';
+import { IsNotEmpty, IsString } from 'class-validator';
 
+@InputType()
 export class RegionInputDto {
   @IsNotEmpty()
   @IsString()
+  @Field({ description: 'Name of the region' })
   name: string;
-
-  @IsArray()
-  @Type(() => String)
-  @ArrayNotEmpty()
-  locations: string[];
 
   @IsNotEmpty()
   @IsString()
+  @Field(() => String, {
+    description: 'Locations that are related to the region'
+  })
   generation: string;
 }
