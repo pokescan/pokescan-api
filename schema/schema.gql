@@ -51,50 +51,6 @@ type GenerationDto {
   order: Int!
 }
 
-type LocationDto {
-  """
-  Id of the object
-  """
-  id: ID!
-
-  """
-  Latest update date for object
-  """
-  updatedAt: String!
-
-  """
-  Creation date for object
-  """
-  createdAt: String!
-
-  """
-  Name of the location
-  """
-  name: String!
-}
-
-type PokemonTypeDto {
-  """
-  Id of the object
-  """
-  id: ID!
-
-  """
-  Latest update date for object
-  """
-  updatedAt: String!
-
-  """
-  Creation date for object
-  """
-  createdAt: String!
-
-  """
-  Name of the pokemon type
-  """
-  name: String!
-}
-
 type RegionDto {
   """
   Id of the object
@@ -117,14 +73,58 @@ type RegionDto {
   name: String!
 
   """
-  Locations that are related to the region
-  """
-  locations: [LocationDto!]!
-
-  """
   Generated related to the region
   """
   generation: GenerationDto!
+}
+
+type LocationDto {
+  """
+  Id of the object
+  """
+  id: ID!
+
+  """
+  Latest update date for object
+  """
+  updatedAt: String!
+
+  """
+  Creation date for object
+  """
+  createdAt: String!
+
+  """
+  Name of the location
+  """
+  name: String!
+
+  """
+  Region of the location
+  """
+  region: RegionDto!
+}
+
+type PokemonTypeDto {
+  """
+  Id of the object
+  """
+  id: ID!
+
+  """
+  Latest update date for object
+  """
+  updatedAt: String!
+
+  """
+  Creation date for object
+  """
+  createdAt: String!
+
+  """
+  Name of the pokemon type
+  """
+  name: String!
 }
 
 type Query {
@@ -195,11 +195,6 @@ input RegionInputDto {
   """
   Locations that are related to the region
   """
-  locations: [String!]!
-
-  """
-  Locations that are related to the region
-  """
   generation: String!
 }
 
@@ -208,6 +203,11 @@ input LocationInputDto {
   Name of the location
   """
   name: String!
+
+  """
+  Id of the region
+  """
+  region: String!
 }
 
 input GenerationInputDto {

@@ -18,7 +18,12 @@ import { SharedModule } from '@shared/shared.module';
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.DB_URL, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      connectionFactory: connection => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        connection.plugin(require('mongoose-autopopulate'));
+        return connection;
+      }
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema/schema.gql',

@@ -7,4 +7,9 @@ export class LocationInputDto {
   @IsNotEmpty()
   @Field({ description: 'Name of the location' })
   name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  @Field({ description: 'Id of the region' })
+  region: string;
 }
