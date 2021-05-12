@@ -128,7 +128,7 @@ type PokemonTypeDto {
 }
 
 type Query {
-  abilities: [AbilityDto!]!
+  findAllAbilityDto: [AbilityDto!]!
   ability(id: String!): AbilityDto!
   pokemonTypes: [PokemonTypeDto!]!
   pokemonType(id: String!): PokemonTypeDto!

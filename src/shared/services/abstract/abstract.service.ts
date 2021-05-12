@@ -11,8 +11,12 @@ export class AbstractService<M extends Document, D> {
     return createdObject.save();
   }
 
-  findAll(): Promise<M[]> {
-    return this.model.find().exec();
+  findAll(offset = 0, limit = 10): Promise<M[]> {
+    return this.model
+      .find()
+      .skip(offset)
+      .limit(limit)
+      .exec();
   }
 
   find(id: string): Promise<M> {

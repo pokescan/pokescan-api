@@ -2,16 +2,19 @@ import { UpdateAbilityDto } from '@ability/dto/update-ability.dto';
 import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
+import { BaseResolver } from '@shared/functions/base-resolver';
 import { AbilityDto } from '../dto/ability.dto';
 import { CreateAbilityDto } from '../dto/create-ability.dto';
 import { AbilityDocument } from '../schema/ability.schema';
 import { AbilityService } from '../service/ability.service';
 
 @Resolver(() => AbilityDto)
-export class AbilityResolver {
+export class AbilityResolver extends BaseResolver(AbilityDto) {
   private readonly LOGGER = new Logger(AbilityResolver.name);
 
-  constructor(private readonly abilityService: AbilityService) {}
+  constructor(private readonly abilityService: AbilityService) {
+    super(abilityService);
+  }
 
   @Mutation(() => AbilityDto)
   async createAbility(
@@ -35,17 +38,21 @@ export class AbilityResolver {
     }
   }
 
-  @Query(() => [AbilityDto], { name: 'abilities' })
-  async findAll(): Promise<AbilityDto[]> {
-    try {
-      const abilities: AbilityDocument[] = await this.abilityService.findAll();
+  // @Query(() => [AbilityDto], { name: 'abilities' })
+  // async findAll(@Args() args?: PaginationArgs): Promise<AbilityDto[]> {
+  //   try {
+  //     const abilities: AbilityDocument[] = await this.abilityService.findAll(
+  //       args.offset,
+  //       args.limit
+  //     );
+  //     console.log(abilities);
 
-      return abilities.map(ability => new AbilityDto(ability));
-    } catch (error) {
-      this.LOGGER.error(`Cannot find all abilities because: ${error}`);
-      throw new BadRequestException(error);
-    }
-  }
+  //     return abilities.map(ability => new AbilityDto(ability));
+  //   } catch (error) {
+  //     this.LOGGER.error(`Cannot find all abilities because: ${error}`);
+  //     throw new BadRequestException(error);
+  //   }
+  // }
 
   @Query(() => AbilityDto, { name: 'ability' })
   async findOne(
