@@ -1,7 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PokemonMoveDetailModule } from '@pokemon-move-detail/pokemon-move-detail.module';
-import { PokemonMoveController } from './controller/pokemon-move.controller';
+import { PokemonMoveResolver } from './resolvers/pokemon-move.resolver';
 import { PokemonMove, PokemonMoveSchema } from './schema/pokemon-move.schema';
 import { PokemonMoveService } from './service/pokemon-move.service';
 
@@ -12,7 +12,6 @@ import { PokemonMoveService } from './service/pokemon-move.service';
       { name: PokemonMove.name, schema: PokemonMoveSchema }
     ])
   ],
-  controllers: [PokemonMoveController],
-  providers: [PokemonMoveService]
+  providers: [PokemonMoveService, PokemonMoveResolver]
 })
 export class PokemonMoveModule {}

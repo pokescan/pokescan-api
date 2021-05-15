@@ -53,7 +53,7 @@ export function BaseResolver<D extends Type<CommonDto>, M extends Document>(
         const paginated = new PaginatedObject();
 
         paginated.metadata = {
-          totalCount: count.count,
+          totalCount: count?.count || 0,
           // FIXME:
           hasNextPage: true,
           limit,

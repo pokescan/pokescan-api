@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Body,
   ConflictException,
-  Controller,
   Delete,
   Get,
   HttpCode,
@@ -18,12 +17,11 @@ import { PokemonMoveDetailDocument } from '@pokemon-move-detail/schema/pokemon-m
 import { PokemonMoveDetailService } from '@pokemon-move-detail/service/pokemon-move-detail.service';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
 import { Response } from 'express';
-import { PokemonMoveInputDto } from '../dto/pokemon-move-input.dto';
+import { CreatePokemonMoveDto } from '../dto/create-pokemon-move.dto';
 import { PokemonMoveDto } from '../dto/pokemon-move.dto';
 import { PokemonMoveDocument } from '../schema/pokemon-move.schema';
 import { PokemonMoveService } from '../service/pokemon-move.service';
 
-@Controller('pokemon-moves')
 export class PokemonMoveController {
   private readonly LOGGER = new Logger(PokemonMoveController.name);
 
@@ -35,7 +33,7 @@ export class PokemonMoveController {
   @Post()
   @HttpCode(201)
   async create(
-    @Body() pokemonMoveInputDto: PokemonMoveInputDto
+    @Body() pokemonMoveInputDto: CreatePokemonMoveDto
   ): Promise<PokemonMoveDto> {
     try {
       const pokemonMove: PokemonMoveDocument = await this.pokemonMoveService.create(
@@ -80,7 +78,7 @@ export class PokemonMoveController {
   @HttpCode(202)
   async update(
     @Param('id') id: string,
-    @Body() pokemonMoveInputDto: PokemonMoveInputDto
+    @Body() pokemonMoveInputDto: CreatePokemonMoveDto
   ): Promise<PokemonMoveDto> {
     try {
       const pokemonMove: PokemonMoveDocument = await this.pokemonMoveService.update(

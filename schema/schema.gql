@@ -175,6 +175,37 @@ type PokemonTypePaginated {
   metadata: PokemonTypeMetadata!
 }
 
+type PokemonMoveDto {
+  """
+  Id of the object
+  """
+  id: ID!
+
+  """
+  Latest update date for object
+  """
+  updatedAt: String!
+
+  """
+  Creation date for object
+  """
+  createdAt: String!
+  name: String!
+  description: String!
+}
+
+type PokemonMoveMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type PokemonMovePaginated {
+  items: [PokemonMoveDto!]
+  metadata: PokemonMoveMetadata!
+}
+
 type RegionMetadata {
   totalCount: Int!
   hasNextPage: Boolean!
@@ -190,6 +221,8 @@ type RegionPaginated {
 type Query {
   findAllAbilitys(offset: Int = 0, limit: Int = 10): AbilityPaginated!
   ability(id: String!): AbilityDto!
+  findAllPokemonMoves(offset: Int = 0, limit: Int = 10): PokemonMovePaginated!
+  pokemonMove(id: String!): PokemonMoveDto!
   findAllPokemonTypes(offset: Int = 0, limit: Int = 10): PokemonTypePaginated!
   pokemonType(id: String!): PokemonTypeDto!
   findAllRegions(offset: Int = 0, limit: Int = 10): RegionPaginated!
@@ -201,9 +234,13 @@ type Query {
 }
 
 type Mutation {
-  createAbility(abilityInputDto: CreateAbilityDto!): AbilityDto!
+  createAbility(pokemonMoveInputDto: CreatePokemonMoveDto!): PokemonMoveDto!
   updateAbility(abilityInputDto: UpdateAbilityDto!, id: String!): AbilityDto!
-  removeAbility(id: String!): AbilityDto
+  removeAbility(id: String!): PokemonMoveDto
+  updatePokemonMove(
+    updatePokemonMoveDto: UpdatePokemonMoveDto!
+    id: String!
+  ): PokemonMoveDto!
   createPokemonType(pokemonTypeInputDto: PokemonTypeInputDto!): PokemonTypeDto!
   updatePokemonType(
     pokemonTypeInputDto: PokemonTypeInputDto!
@@ -220,15 +257,8 @@ type Mutation {
   removeGeneration(id: String!): GenerationDto
 }
 
-input CreateAbilityDto {
-  """
-  Name of the ability
-  """
+input CreatePokemonMoveDto {
   name: String!
-
-  """
-  Description of the ability
-  """
   description: String!
 }
 
@@ -236,6 +266,10 @@ input UpdateAbilityDto {
   """
   Description of the ability
   """
+  description: String!
+}
+
+input UpdatePokemonMoveDto {
   description: String!
 }
 
