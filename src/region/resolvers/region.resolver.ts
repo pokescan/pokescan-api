@@ -5,12 +5,15 @@ import { RegionDto } from '@region/dto/region.dto';
 import { RegionDocument } from '@region/schema/region.schema';
 import { RegionService } from '@region/service/region.service';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
+import { BaseResolver } from '@shared/functions/base-resolver';
 
 @Resolver(() => RegionDto)
-export class RegionResolver {
+export class RegionResolver extends BaseResolver(RegionDto) {
   private readonly LOGGER = new Logger(RegionResolver.name);
 
-  constructor(private readonly regionService: RegionService) {}
+  constructor(private readonly regionService: RegionService) {
+    super(regionService);
+  }
 
   @Mutation(() => RegionDto)
   async createRegion(
@@ -28,18 +31,6 @@ export class RegionResolver {
         );
       }
 
-      throw new BadRequestException(error);
-    }
-  }
-
-  @Query(() => [RegionDto], { name: 'regions' })
-  async findAll(): Promise<RegionDto[]> {
-    try {
-      const regions: RegionDocument[] = await this.regionService.findAll();
-
-      return regions.map(region => new RegionDto(region));
-    } catch (error) {
-      this.LOGGER.error(`Cannot find all regions because: ${error}`);
       throw new BadRequestException(error);
     }
   }

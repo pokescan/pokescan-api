@@ -5,12 +5,15 @@ import { GenerationService } from '@generation/service/generation.service';
 import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
+import { BaseResolver } from '@shared/functions/base-resolver';
 
 @Resolver(() => GenerationDto)
-export class GenerationResolver {
+export class GenerationResolver extends BaseResolver(GenerationDto) {
   private readonly LOGGER = new Logger(GenerationResolver.name);
 
-  constructor(private readonly generationService: GenerationService) {}
+  constructor(private readonly generationService: GenerationService) {
+    super(generationService);
+  }
 
   @Mutation(() => GenerationDto)
   async createGeneration(
@@ -29,19 +32,6 @@ export class GenerationResolver {
           `An object with name ${generationInputDto.order} already exists`
         );
       }
-
-      throw new BadRequestException(error);
-    }
-  }
-
-  @Query(() => [GenerationDto], { name: 'generations' })
-  async findAll(): Promise<GenerationDto[]> {
-    try {
-      const generations: GenerationDocument[] = await this.generationService.findAll();
-
-      return generations.map(generation => new GenerationDto(generation));
-    } catch (error) {
-      this.LOGGER.error(`Cannot find all generations because: ${error}`);
 
       throw new BadRequestException(error);
     }

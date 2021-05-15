@@ -1,3 +1,4 @@
+import { PaginatedAbility } from '@ability/dto/ability-paginated.dto';
 import { UpdateAbilityDto } from '@ability/dto/update-ability.dto';
 import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
@@ -9,7 +10,7 @@ import { AbilityDocument } from '../schema/ability.schema';
 import { AbilityService } from '../service/ability.service';
 
 @Resolver(() => AbilityDto)
-export class AbilityResolver extends BaseResolver(AbilityDto) {
+export class AbilityResolver extends BaseResolver(PaginatedAbility) {
   private readonly LOGGER = new Logger(AbilityResolver.name);
 
   constructor(private readonly abilityService: AbilityService) {
@@ -37,22 +38,6 @@ export class AbilityResolver extends BaseResolver(AbilityDto) {
       throw new BadRequestException(error);
     }
   }
-
-  // @Query(() => [AbilityDto], { name: 'abilities' })
-  // async findAll(@Args() args?: PaginationArgs): Promise<AbilityDto[]> {
-  //   try {
-  //     const abilities: AbilityDocument[] = await this.abilityService.findAll(
-  //       args.offset,
-  //       args.limit
-  //     );
-  //     console.log(abilities);
-
-  //     return abilities.map(ability => new AbilityDto(ability));
-  //   } catch (error) {
-  //     this.LOGGER.error(`Cannot find all abilities because: ${error}`);
-  //     throw new BadRequestException(error);
-  //   }
-  // }
 
   @Query(() => AbilityDto, { name: 'ability' })
   async findOne(

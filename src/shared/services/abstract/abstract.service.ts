@@ -27,8 +27,8 @@ export class AbstractService<M extends Document, D> {
     return this.model.find(queries).exec();
   }
 
-  aggregate(aggregation: unknown[]): Aggregate<M[]> {
-    return this.model.aggregate(aggregation);
+  aggregate<A>(aggregation: any[]): Aggregate<A[]> {
+    return this.model.aggregate<A>(aggregation);
   }
 
   update(id: string, obj?: any): Promise<M> {

@@ -29,6 +29,18 @@ type AbilityDto {
   description: String!
 }
 
+type PaginatedAbility {
+  items: [AbilityDto!]
+  metadata: Metadata!
+}
+
+type Metadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
 type GenerationDto {
   """
   Id of the object
@@ -128,15 +140,15 @@ type PokemonTypeDto {
 }
 
 type Query {
-  findAllAbilityDto(offset: Int = 0, limit: Int = 10): [AbilityDto!]!
+  findAllPaginatedAbility(offset: Int = 0, limit: Int = 10): PaginatedAbility!
   ability(id: String!): AbilityDto!
-  pokemonTypes: [PokemonTypeDto!]!
+  findAllPokemonTypeDto(offset: Int = 0, limit: Int = 10): PokemonTypeDto!
   pokemonType(id: String!): PokemonTypeDto!
-  regions: [RegionDto!]!
+  findAllRegionDto(offset: Int = 0, limit: Int = 10): RegionDto!
   region(id: String!): RegionDto!
-  locations: [LocationDto!]!
+  findAllLocationDto(offset: Int = 0, limit: Int = 10): LocationDto!
   location(id: String!): LocationDto!
-  generations: [GenerationDto!]!
+  findAllGenerationDto(offset: Int = 0, limit: Int = 10): GenerationDto!
   generation(id: String!): GenerationDto!
 }
 
