@@ -1,4 +1,3 @@
-import { PaginatedAbility } from '@ability/dto/ability-paginated.dto';
 import { UpdateAbilityDto } from '@ability/dto/update-ability.dto';
 import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
@@ -10,7 +9,7 @@ import { AbilityDocument } from '../schema/ability.schema';
 import { AbilityService } from '../service/ability.service';
 
 @Resolver(() => AbilityDto)
-export class AbilityResolver extends BaseResolver(PaginatedAbility) {
+export class AbilityResolver extends BaseResolver(AbilityDto) {
   private readonly LOGGER = new Logger(AbilityResolver.name);
 
   constructor(private readonly abilityService: AbilityService) {

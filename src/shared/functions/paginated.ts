@@ -1,8 +1,14 @@
 import { Type } from '@nestjs/common';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 
-function Paginated<T>(classRef: Type<T>): any {
-  @ObjectType({ isAbstract: true })
+export function Paginated<T>(classRef: Type<T>): any {
+  const name: string = classRef.name.replace('Dto', '');
+
+  // FIXME:
+  // We have today as much Metadata object in our schema.gql,
+  // that we have classes that extends our BaseResolver function
+  // that implements the pagination for all of our resolvers.
+  @ObjectType(`${name}Metadata`)
   class Metadata {
     @Field(() => Int)
     totalCount: number;
@@ -22,12 +28,8 @@ function Paginated<T>(classRef: Type<T>): any {
     @Field(() => [classRef], { nullable: true })
     items: T[];
 
-    @Field(() => Metadata)
+    @Field()
     metadata: Metadata;
-
-    get typeName(): string {
-      return classRef.name;
-    }
 
     get type(): Type<T> {
       return classRef;
@@ -36,5 +38,3 @@ function Paginated<T>(classRef: Type<T>): any {
 
   return PaginatedType;
 }
-
-export { Paginated };

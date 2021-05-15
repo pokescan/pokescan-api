@@ -1,6 +1,7 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { BadRequestException, Logger, Type } from '@nestjs/common';
-import { Args, Query, Resolver } from '@nestjs/graphql';
+import { Args, ObjectType, Query, Resolver } from '@nestjs/graphql';
+import { Paginated } from '@shared/functions/paginated';
+import { CommonDto } from '@shared/models/common.dto';
 import { PaginationArgs } from '@shared/models/pagination-args';
 import { AbstractService } from '@shared/services/abstract/abstract.service';
 import { Aggregate, Document } from 'mongoose';
@@ -9,10 +10,14 @@ interface CountResult {
   count: number;
 }
 
-// FIXME Type => any
-export function BaseResolver<D extends Type<any>, M extends Document>(
+export function BaseResolver<D extends Type<CommonDto>, M extends Document>(
   classRef: D
 ): any {
+  const name: string = classRef.name.replace('Dto', '');
+
+  @ObjectType(`${name}Paginated`)
+  class PaginatedObject extends Paginated(classRef) {}
+
   @Resolver({ isAbstract: true })
   abstract class BaseResolverHost {
     constructor(
@@ -20,8 +25,8 @@ export function BaseResolver<D extends Type<any>, M extends Document>(
       private LOGGER: Logger
     ) {}
 
-    @Query(() => classRef, { name: `findAll${classRef.name}` })
-    async findAll(@Args() args?: PaginationArgs): Promise<D> {
+    @Query(() => PaginatedObject, { name: `findAll${name}s` })
+    async findAll(@Args() args?: PaginationArgs): Promise<PaginatedObject> {
       try {
         const { limit, offset } = args;
 
@@ -45,11 +50,11 @@ export function BaseResolver<D extends Type<any>, M extends Document>(
 
         const [count] = countResult;
 
-        const paginated = new classRef();
+        const paginated = new PaginatedObject();
 
         paginated.metadata = {
           totalCount: count.count,
-          // FIXME
+          // FIXME:
           hasNextPage: true,
           limit,
           offset
@@ -59,7 +64,7 @@ export function BaseResolver<D extends Type<any>, M extends Document>(
 
         return paginated;
       } catch (error) {
-        this.LOGGER.error(`Cannot find all ${classRef.name} because: ${error}`);
+        this.LOGGER.error(`Cannot find all ${name} because: ${error}`);
 
         throw new BadRequestException(error);
       }

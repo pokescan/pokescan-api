@@ -2,7 +2,6 @@ import {
   BadRequestException,
   Body,
   ConflictException,
-  Controller,
   Delete,
   Get,
   HttpCode,
@@ -19,7 +18,6 @@ import { MongoHttpStatus } from '@shared/enums/mongo.enum';
 import { Response } from 'express';
 import { PokemonStatService } from '../service/pokemon-stat.service';
 
-@Controller('pokemon-stat')
 export class PokemonStatController {
   private readonly LOGGER = new Logger(PokemonStatController.name);
 

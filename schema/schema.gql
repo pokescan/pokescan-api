@@ -29,16 +29,16 @@ type AbilityDto {
   description: String!
 }
 
-type PaginatedAbility {
-  items: [AbilityDto!]
-  metadata: Metadata!
-}
-
-type Metadata {
+type AbilityMetadata {
   totalCount: Int!
   hasNextPage: Boolean!
   limit: Int!
   offset: Int!
+}
+
+type AbilityPaginated {
+  items: [AbilityDto!]
+  metadata: AbilityMetadata!
 }
 
 type GenerationDto {
@@ -61,6 +61,18 @@ type GenerationDto {
   The order of the generation
   """
   order: Int!
+}
+
+type GenerationMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type GenerationPaginated {
+  items: [GenerationDto!]
+  metadata: GenerationMetadata!
 }
 
 type RegionDto {
@@ -117,6 +129,18 @@ type LocationDto {
   region: RegionDto!
 }
 
+type LocationMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type LocationPaginated {
+  items: [LocationDto!]
+  metadata: LocationMetadata!
+}
+
 type PokemonTypeDto {
   """
   Id of the object
@@ -139,16 +163,40 @@ type PokemonTypeDto {
   name: String!
 }
 
+type PokemonTypeMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type PokemonTypePaginated {
+  items: [PokemonTypeDto!]
+  metadata: PokemonTypeMetadata!
+}
+
+type RegionMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type RegionPaginated {
+  items: [RegionDto!]
+  metadata: RegionMetadata!
+}
+
 type Query {
-  findAllPaginatedAbility(offset: Int = 0, limit: Int = 10): PaginatedAbility!
+  findAllAbilitys(offset: Int = 0, limit: Int = 10): AbilityPaginated!
   ability(id: String!): AbilityDto!
-  findAllPokemonTypeDto(offset: Int = 0, limit: Int = 10): PokemonTypeDto!
+  findAllPokemonTypes(offset: Int = 0, limit: Int = 10): PokemonTypePaginated!
   pokemonType(id: String!): PokemonTypeDto!
-  findAllRegionDto(offset: Int = 0, limit: Int = 10): RegionDto!
+  findAllRegions(offset: Int = 0, limit: Int = 10): RegionPaginated!
   region(id: String!): RegionDto!
-  findAllLocationDto(offset: Int = 0, limit: Int = 10): LocationDto!
+  findAllLocations(offset: Int = 0, limit: Int = 10): LocationPaginated!
   location(id: String!): LocationDto!
-  findAllGenerationDto(offset: Int = 0, limit: Int = 10): GenerationDto!
+  findAllGenerations(offset: Int = 0, limit: Int = 10): GenerationPaginated!
   generation(id: String!): GenerationDto!
 }
 
