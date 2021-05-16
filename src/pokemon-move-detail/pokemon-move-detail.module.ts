@@ -1,6 +1,8 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { registerEnumType } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
-import { PokemonTypeModule } from '@pokemon-type/pokemon-type.module';
+import { Damage } from './enum/damage.enum';
+import { LearnMethod } from './enum/learn-method.enum';
 import {
   PokemonMoveDetail,
   PokemonMoveDetailSchema
@@ -9,7 +11,6 @@ import { PokemonMoveDetailService } from './service/pokemon-move-detail.service'
 
 @Module({
   imports: [
-    forwardRef(() => PokemonTypeModule),
     MongooseModule.forFeature([
       { name: PokemonMoveDetail.name, schema: PokemonMoveDetailSchema }
     ])
@@ -17,4 +18,9 @@ import { PokemonMoveDetailService } from './service/pokemon-move-detail.service'
   providers: [PokemonMoveDetailService],
   exports: [PokemonMoveDetailService]
 })
-export class PokemonMoveDetailModule {}
+export class PokemonMoveDetailModule {
+  onModuleInit(): void {
+    registerEnumType(Damage, { name: 'Damage' });
+    registerEnumType(LearnMethod, { name: 'LearnMethod' });
+  }
+}

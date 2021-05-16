@@ -1,11 +1,10 @@
+import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class PokemonMoveInputDto {
+@InputType()
+export class UpdatePokemonMoveDto {
   @IsString()
   @IsNotEmpty()
-  name: string;
-
-  @IsString()
-  @IsNotEmpty()
+  @Field()
   description: string;
 }

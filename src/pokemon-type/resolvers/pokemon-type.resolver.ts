@@ -5,12 +5,15 @@ import { PokemonTypeDto } from '@pokemon-type/dto/pokemon-type.dto';
 import { PokemonTypeDocument } from '@pokemon-type/schema/pokemon-type.schema';
 import { PokemonTypeService } from '@pokemon-type/service/pokemon-type.service';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
+import { BaseResolver } from '@shared/functions/base-resolver';
 
 @Resolver(() => PokemonTypeDto)
-export class PokemonTypeResolver {
+export class PokemonTypeResolver extends BaseResolver(PokemonTypeDto) {
   private readonly LOGGER = new Logger(PokemonTypeResolver.name);
 
-  constructor(private readonly pokemonTypeService: PokemonTypeService) {}
+  constructor(private readonly pokemonTypeService: PokemonTypeService) {
+    super(pokemonTypeService);
+  }
 
   @Mutation(() => PokemonTypeDto)
   async createPokemonType(
@@ -30,20 +33,6 @@ export class PokemonTypeResolver {
         );
       }
 
-      throw new BadRequestException(error);
-    }
-  }
-
-  @Query(() => [PokemonTypeDto], { name: 'pokemonTypes' })
-  async findAll(): Promise<PokemonTypeDto[]> {
-    try {
-      const pokemonTypes = await this.pokemonTypeService.findAll();
-
-      return pokemonTypes.map(
-        (type: PokemonTypeDocument) => new PokemonTypeDto(type)
-      );
-    } catch (error) {
-      this.LOGGER.error(`Cannot find all abilities because: ${error}`);
       throw new BadRequestException(error);
     }
   }

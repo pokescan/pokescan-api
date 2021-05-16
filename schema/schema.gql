@@ -29,6 +29,18 @@ type AbilityDto {
   description: String!
 }
 
+type AbilityMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type AbilityPaginated {
+  items: [AbilityDto!]
+  metadata: AbilityMetadata!
+}
+
 type GenerationDto {
   """
   Id of the object
@@ -49,6 +61,18 @@ type GenerationDto {
   The order of the generation
   """
   order: Int!
+}
+
+type GenerationMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type GenerationPaginated {
+  items: [GenerationDto!]
+  metadata: GenerationMetadata!
 }
 
 type RegionDto {
@@ -105,6 +129,18 @@ type LocationDto {
   region: RegionDto!
 }
 
+type LocationMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type LocationPaginated {
+  items: [LocationDto!]
+  metadata: LocationMetadata!
+}
+
 type PokemonTypeDto {
   """
   Id of the object
@@ -127,23 +163,170 @@ type PokemonTypeDto {
   name: String!
 }
 
+type PokemonTypeMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type PokemonTypePaginated {
+  items: [PokemonTypeDto!]
+  metadata: PokemonTypeMetadata!
+}
+
+type PokemonMoveDto {
+  """
+  Id of the object
+  """
+  id: ID!
+
+  """
+  Latest update date for object
+  """
+  updatedAt: String!
+
+  """
+  Creation date for object
+  """
+  createdAt: String!
+  name: String!
+  description: String!
+  pokemonMoveDetails: [PokemonMoveDetailDto!]!
+}
+
+type PokemonMoveDetailDto {
+  """
+  Id of the object
+  """
+  id: ID!
+
+  """
+  Latest update date for object
+  """
+  updatedAt: String!
+
+  """
+  Creation date for object
+  """
+  createdAt: String!
+  levelLearnedAt: Int!
+  learnMethod: LearnMethod!
+  pokemonMove: PokemonMoveDto!
+  pokemonType: PokemonTypeDto!
+  accuracy: Int!
+  pp: Int!
+  power: Int!
+  effect: Int!
+  damage: Damage!
+  contestType: Int!
+  contestCharm: Int!
+  contestLocking: Int!
+}
+
+enum LearnMethod {
+  EVOLUTION
+}
+
+enum Damage {
+  STATUT
+  PHYSIQUE
+  SPECIAL
+}
+
+type PokemonMoveMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type PokemonMovePaginated {
+  items: [PokemonMoveDto!]
+  metadata: PokemonMoveMetadata!
+}
+
+type RegionMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type RegionPaginated {
+  items: [RegionDto!]
+  metadata: RegionMetadata!
+}
+
+type GameVersionDto {
+  """
+  Id of the object
+  """
+  id: ID!
+
+  """
+  Latest update date for object
+  """
+  updatedAt: String!
+
+  """
+  Creation date for object
+  """
+  createdAt: String!
+  name: String!
+  imageUrl: String!
+  generation: GenerationDto!
+}
+
+type GameVersionMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type GameVersionPaginated {
+  items: [GameVersionDto!]
+  metadata: GameVersionMetadata!
+}
+
 type Query {
-  abilities: [AbilityDto!]!
+  findAllAbilitys(offset: Int = 0, limit: Int = 10): AbilityPaginated!
   ability(id: String!): AbilityDto!
-  pokemonTypes: [PokemonTypeDto!]!
+  findAllPokemonMoves(offset: Int = 0, limit: Int = 10): PokemonMovePaginated!
+  pokemonMove(id: String!): PokemonMoveDto!
+  findAllPokemonTypes(offset: Int = 0, limit: Int = 10): PokemonTypePaginated!
   pokemonType(id: String!): PokemonTypeDto!
-  regions: [RegionDto!]!
+  findAllRegions(offset: Int = 0, limit: Int = 10): RegionPaginated!
   region(id: String!): RegionDto!
-  locations: [LocationDto!]!
+  findAllLocations(offset: Int = 0, limit: Int = 10): LocationPaginated!
   location(id: String!): LocationDto!
-  generations: [GenerationDto!]!
+  findAllGenerations(offset: Int = 0, limit: Int = 10): GenerationPaginated!
   generation(id: String!): GenerationDto!
+  findAllGameVersions(offset: Int = 0, limit: Int = 10): GameVersionPaginated!
+  gameVersion(id: String!): GameVersionDto!
 }
 
 type Mutation {
   createAbility(abilityInputDto: CreateAbilityDto!): AbilityDto!
   updateAbility(abilityInputDto: UpdateAbilityDto!, id: String!): AbilityDto!
   removeAbility(id: String!): AbilityDto
+  createPokemonMove(pokemonMoveInputDto: CreatePokemonMoveDto!): PokemonMoveDto!
+  updatePokemonMove(
+    updatePokemonMoveDto: UpdatePokemonMoveDto!
+    id: String!
+  ): PokemonMoveDto!
+  removePokemonMove(id: String!): PokemonMoveDto
+  createPokemonMoveDetail(
+    pokemonMoveDetailDto: CreatePokemonMoveDetailDto!
+    pokemonMoveId: String!
+  ): PokemonMoveDetailDto!
+  updatePokemonMoveDetail(
+    pokemonMoveDetailDto: UpdatePokemonMoveDetailDto!
+    pokemonMoveDetailId: String!
+    pokemonMoveId: String!
+  ): PokemonMoveDetailDto!
+  removePokemonMoveDetail(pokemonMoveDetailId: String!): PokemonMoveDetailDto
   createPokemonType(pokemonTypeInputDto: PokemonTypeInputDto!): PokemonTypeDto!
   updatePokemonType(
     pokemonTypeInputDto: PokemonTypeInputDto!
@@ -158,6 +341,7 @@ type Mutation {
   removeLocation(id: String!): AbilityDto
   createGeneration(generationInputDto: GenerationInputDto!): GenerationDto!
   removeGeneration(id: String!): GenerationDto
+  createGameVersion(createGameVersion: CreateGameVersionDto!): GameVersionDto!
 }
 
 input CreateAbilityDto {
@@ -177,6 +361,45 @@ input UpdateAbilityDto {
   Description of the ability
   """
   description: String!
+}
+
+input CreatePokemonMoveDto {
+  name: String!
+  description: String!
+}
+
+input UpdatePokemonMoveDto {
+  description: String!
+}
+
+input CreatePokemonMoveDetailDto {
+  levelLearnedAt: Int!
+  learnMethod: LearnMethod!
+  pokemonType: String!
+  pokemonMove: String
+  accuracy: Int!
+  pp: Int!
+  power: Int!
+  effect: Int!
+  damage: Damage!
+  contestType: Int!
+  contestCharm: Int!
+  contestLocking: Int!
+}
+
+input UpdatePokemonMoveDetailDto {
+  levelLearnedAt: Int
+  learnMethod: LearnMethod
+  pokemonType: String
+  pokemonMove: String
+  accuracy: Int
+  pp: Int
+  power: Int
+  effect: Int
+  damage: Damage
+  contestType: Int
+  contestCharm: Int
+  contestLocking: Int
 }
 
 input PokemonTypeInputDto {
@@ -215,4 +438,10 @@ input GenerationInputDto {
   The order of the generation
   """
   order: Int!
+}
+
+input CreateGameVersionDto {
+  name: String!
+  imageUrl: String!
+  generation: String!
 }

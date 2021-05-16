@@ -10,6 +10,7 @@ import { GenerationService } from './service/generation.service';
       { name: Generation.name, schema: GenerationSchema }
     ])
   ],
-  providers: [GenerationResolver, GenerationService]
+  providers: [GenerationResolver, GenerationService],
+  exports: [GenerationService]
 })
 export class GenerationModule {}
