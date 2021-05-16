@@ -11,6 +11,7 @@ import { PokemonStatModule } from '@pokemon-stat/pokemon-stat.module';
 import { PokemonTypeModule } from '@pokemon-type/pokemon-type.module';
 import { RegionModule } from '@region/region.module';
 import { SharedModule } from '@shared/shared.module';
+import { GameVersionModule } from './game-version/game-version.module';
 
 @Module({
   imports: [
@@ -37,7 +38,8 @@ import { SharedModule } from '@shared/shared.module';
     RegionModule,
     LocationModule,
     GenerationModule,
-    PokemonStatModule
+    PokemonStatModule,
+    GameVersionModule
   ],
   controllers: [],
   providers: []

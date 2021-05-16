@@ -258,6 +258,38 @@ type RegionPaginated {
   metadata: RegionMetadata!
 }
 
+type GameVersionDto {
+  """
+  Id of the object
+  """
+  id: ID!
+
+  """
+  Latest update date for object
+  """
+  updatedAt: String!
+
+  """
+  Creation date for object
+  """
+  createdAt: String!
+  name: String!
+  imageUrl: String!
+  generation: GenerationDto!
+}
+
+type GameVersionMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type GameVersionPaginated {
+  items: [GameVersionDto!]
+  metadata: GameVersionMetadata!
+}
+
 type Query {
   findAllAbilitys(offset: Int = 0, limit: Int = 10): AbilityPaginated!
   ability(id: String!): AbilityDto!
@@ -271,6 +303,8 @@ type Query {
   location(id: String!): LocationDto!
   findAllGenerations(offset: Int = 0, limit: Int = 10): GenerationPaginated!
   generation(id: String!): GenerationDto!
+  findAllGameVersions(offset: Int = 0, limit: Int = 10): GameVersionPaginated!
+  gameVersion(id: String!): GameVersionDto!
 }
 
 type Mutation {
@@ -307,6 +341,7 @@ type Mutation {
   removeLocation(id: String!): AbilityDto
   createGeneration(generationInputDto: GenerationInputDto!): GenerationDto!
   removeGeneration(id: String!): GenerationDto
+  createGameVersion(createGameVersion: CreateGameVersionDto!): GameVersionDto!
 }
 
 input CreateAbilityDto {
@@ -403,4 +438,10 @@ input GenerationInputDto {
   The order of the generation
   """
   order: Int!
+}
+
+input CreateGameVersionDto {
+  name: String!
+  imageUrl: String!
+  generation: String!
 }

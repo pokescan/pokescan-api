@@ -18,6 +18,7 @@
       "@ability/*": ["src/ability/*"],
       "@pokemon-move/*": ["src/pokemon-move/*"],
       "@pokemon-move-detail/*": ["src/pokemon-move-detail/*"],
+      "@game-version/*": ["src/game-version/*"],
       "@generation/*": ["src/generation/*"],
       "@location/*": ["src/location/*"],
       "@region/*": ["src/region/*"],
