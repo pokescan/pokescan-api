@@ -13,6 +13,7 @@ import { PokemonTypeService } from './service/pokemon-type.service';
       }
     ])
   ],
-  providers: [PokemonTypeService, PokemonTypeResolver]
+  providers: [PokemonTypeService, PokemonTypeResolver],
+  exports: [PokemonTypeService]
 })
 export class PokemonTypeModule {}

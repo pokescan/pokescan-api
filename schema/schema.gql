@@ -192,6 +192,46 @@ type PokemonMoveDto {
   createdAt: String!
   name: String!
   description: String!
+  pokemonMoveDetails: [PokemonMoveDetailDto!]!
+}
+
+type PokemonMoveDetailDto {
+  """
+  Id of the object
+  """
+  id: ID!
+
+  """
+  Latest update date for object
+  """
+  updatedAt: String!
+
+  """
+  Creation date for object
+  """
+  createdAt: String!
+  levelLearnedAt: Int!
+  learnMethod: LearnMethod!
+  pokemonMove: PokemonMoveDto!
+  pokemonType: PokemonTypeDto!
+  accuracy: Int!
+  pp: Int!
+  power: Int!
+  effect: Int!
+  damage: Damage!
+  contestType: Int!
+  contestCharm: Int!
+  contestLocking: Int!
+}
+
+enum LearnMethod {
+  EVOLUTION
+}
+
+enum Damage {
+  STATUT
+  PHYSIQUE
+  SPECIAL
 }
 
 type PokemonMoveMetadata {
@@ -234,13 +274,25 @@ type Query {
 }
 
 type Mutation {
-  createAbility(pokemonMoveInputDto: CreatePokemonMoveDto!): PokemonMoveDto!
+  createAbility(abilityInputDto: CreateAbilityDto!): AbilityDto!
   updateAbility(abilityInputDto: UpdateAbilityDto!, id: String!): AbilityDto!
-  removeAbility(id: String!): PokemonMoveDto
+  removeAbility(id: String!): AbilityDto
+  createPokemonMove(pokemonMoveInputDto: CreatePokemonMoveDto!): PokemonMoveDto!
   updatePokemonMove(
     updatePokemonMoveDto: UpdatePokemonMoveDto!
     id: String!
   ): PokemonMoveDto!
+  removePokemonMove(id: String!): PokemonMoveDto
+  createPokemonMoveDetail(
+    pokemonMoveDetailDto: CreatePokemonMoveDetailDto!
+    pokemonMoveId: String!
+  ): PokemonMoveDetailDto!
+  updatePokemonMoveDetail(
+    pokemonMoveDetailDto: UpdatePokemonMoveDetailDto!
+    pokemonMoveDetailId: String!
+    pokemonMoveId: String!
+  ): PokemonMoveDetailDto!
+  removePokemonMoveDetail(pokemonMoveDetailId: String!): PokemonMoveDetailDto
   createPokemonType(pokemonTypeInputDto: PokemonTypeInputDto!): PokemonTypeDto!
   updatePokemonType(
     pokemonTypeInputDto: PokemonTypeInputDto!
@@ -257,8 +309,15 @@ type Mutation {
   removeGeneration(id: String!): GenerationDto
 }
 
-input CreatePokemonMoveDto {
+input CreateAbilityDto {
+  """
+  Name of the ability
+  """
   name: String!
+
+  """
+  Description of the ability
+  """
   description: String!
 }
 
@@ -269,8 +328,43 @@ input UpdateAbilityDto {
   description: String!
 }
 
+input CreatePokemonMoveDto {
+  name: String!
+  description: String!
+}
+
 input UpdatePokemonMoveDto {
   description: String!
+}
+
+input CreatePokemonMoveDetailDto {
+  levelLearnedAt: Int!
+  learnMethod: LearnMethod!
+  pokemonType: String!
+  pokemonMove: String
+  accuracy: Int!
+  pp: Int!
+  power: Int!
+  effect: Int!
+  damage: Damage!
+  contestType: Int!
+  contestCharm: Int!
+  contestLocking: Int!
+}
+
+input UpdatePokemonMoveDetailDto {
+  levelLearnedAt: Int
+  learnMethod: LearnMethod
+  pokemonType: String
+  pokemonMove: String
+  accuracy: Int
+  pp: Int
+  power: Int
+  effect: Int
+  damage: Damage
+  contestType: Int
+  contestCharm: Int
+  contestLocking: Int
 }
 
 input PokemonTypeInputDto {
