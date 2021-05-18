@@ -1,5 +1,6 @@
 import { CreateGameVersionDto } from '@game-version/dto/create-game-version.dto';
 import { GameVersionDto } from '@game-version/dto/game-version.dto';
+import { UpdateGameVersionDto } from '@game-version/dto/update-game-version.dto';
 import { GameVersionDocument } from '@game-version/schema/game-version.schema';
 import { GameVersionService } from '@game-version/service/game-version.service';
 import { GenerationDocument } from '@generation/schema/generation.schema';
@@ -70,21 +71,57 @@ export class GameVersionResolver extends BaseResolver(GameVersionDto) {
     }
   }
 
-  // @Mutation(() => GameVersionDto)
-  // updateGameVersion(
-  //   @Args('updateGameVersion') updateGameVersion: UpdateGameVersionDto
-  // ): Promise<GameVersionDto> {
-  //   try {
-  //   } catch (error) {
-  //     this.LOGGER.error(
-  //       `Cannot update ability with id ${id} because: ${error}`
-  //     );
-  //     throw new BadRequestException(error);
-  //   }
-  // }
+  @Mutation(() => GameVersionDto)
+  async updateGameVersion(
+    @Args('updateGameVersion') updateGameVersion: UpdateGameVersionDto
+  ): Promise<GameVersionDto> {
+    const { id, generation } = updateGameVersion;
 
-  // @Mutation(() => GameVersionDto, { nullable: true })
-  // removeGameVersion(@Args('id') id: number): Promise<void> {
-  //   return this.gameVersionService.remove(id);
-  // }
+    try {
+      const gameVersionInBase: GameVersionDocument = await this.gameVersionService.find(
+        id
+      );
+
+      if (null === gameVersionInBase) {
+        throw new BadRequestException(
+          `Cannot update game version with id ${id} because it does not exist`
+        );
+      }
+
+      const generationDocument: GenerationDocument = await this.generationService.find(
+        generation
+      );
+
+      if (null === generationDocument) {
+        throw new BadRequestException(
+          `Cannot create gameVersion because the given generation with id #${generation} does not exist`
+        );
+      }
+
+      const gameVersion: GameVersionDocument = await this.gameVersionService.update(
+        id,
+        updateGameVersion
+      );
+
+      return new GameVersionDto(gameVersion);
+    } catch (error) {
+      this.LOGGER.error(
+        `Cannot update game version with id ${id} because: ${error}`
+      );
+      throw new BadRequestException(error);
+    }
+  }
+
+  @Mutation(() => GameVersionDto, { nullable: true })
+  async removeGameVersion(@Args('id') id: string): Promise<void> {
+    try {
+      await this.gameVersionService.delete(id);
+    } catch (error) {
+      this.LOGGER.error(
+        `Cannot delete game version with id ${id} because: ${error}`
+      );
+
+      throw new BadRequestException(error);
+    }
+  }
 }

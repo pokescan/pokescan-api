@@ -1,3 +1,5 @@
+import { GameVersionDocument } from '@game-version/schema/game-version.schema';
+import { GameVersionService } from '@game-version/service/game-version.service';
 import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
 import {
   Args,
@@ -29,7 +31,8 @@ export class PokemonMoveResolver extends BaseResolver(PokemonMoveDto) {
   constructor(
     private readonly pokemonMoveService: PokemonMoveService,
     private readonly pokemonMoveDetailService: PokemonMoveDetailService,
-    private readonly pokemonTypeService: PokemonTypeService
+    private readonly pokemonTypeService: PokemonTypeService,
+    private readonly gameVersionService: GameVersionService
   ) {
     super(pokemonMoveService);
   }
@@ -109,12 +112,10 @@ export class PokemonMoveResolver extends BaseResolver(PokemonMoveDto) {
         );
       }
 
-      const pokemonMoveDetails: PokemonMoveDetailDocument[] = await this.pokemonMoveDetailService.aggregate(
-        [
-          {
-            $match: { pokemonMove: id }
-          }
-        ]
+      const pokemonMoveDetails: PokemonMoveDetailDocument[] = await this.pokemonMoveDetailService.findByQueries(
+        {
+          pokemonMove: pokemonMove.id
+        }
       );
 
       return pokemonMoveDetails.map(pmd => new PokemonMoveDetailDto(pmd));
@@ -138,7 +139,7 @@ export class PokemonMoveResolver extends BaseResolver(PokemonMoveDto) {
         pokemonMoveId
       );
 
-      if (null == pokemonMove) {
+      if (!pokemonMove) {
         throw new BadRequestException(
           `Cannot create pokemon move detail for pokemonMove with id #${pokemonMoveId} because it does not exist`
         );
@@ -148,9 +149,19 @@ export class PokemonMoveResolver extends BaseResolver(PokemonMoveDto) {
         pokemonMoveDetailDto.pokemonType
       );
 
-      if (null === pokemonType) {
+      if (!pokemonType) {
         throw new BadRequestException(
-          `Cannot create pokemon type for pokemonMove with id #${pokemonMoveId} because it does not exist`
+          `Cannot create pokemon move detail for pokemonMove with id #${pokemonMoveId} because pokemon type ${pokemonMoveDetailDto.pokemonType} does not exist`
+        );
+      }
+
+      const gameVersion: GameVersionDocument = await this.gameVersionService.find(
+        pokemonMoveDetailDto.version
+      );
+
+      if (!gameVersion) {
+        throw new BadRequestException(
+          `Cannot create pokemon type for pokemonMove with id #${pokemonMoveId} because gameVersion ${pokemonMoveDetailDto.version} does not exist`
         );
       }
 
@@ -158,7 +169,8 @@ export class PokemonMoveResolver extends BaseResolver(PokemonMoveDto) {
         {
           ...pokemonMoveDetailDto,
           pokemonMove: pokemonMove.id,
-          pokemonType: pokemonType.id
+          pokemonType: pokemonType.id,
+          version: gameVersion.id
         }
       );
 

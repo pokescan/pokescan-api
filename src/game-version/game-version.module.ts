@@ -12,6 +12,7 @@ import { GameVersionService } from './service/game-version.service';
       { name: GameVersion.name, schema: GameVersionSchema }
     ])
   ],
-  providers: [GameVersionResolver, GameVersionService]
+  providers: [GameVersionResolver, GameVersionService],
+  exports: [GameVersionService]
 })
 export class GameVersionModule {}

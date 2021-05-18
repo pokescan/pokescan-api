@@ -1,9 +1,10 @@
+import { GameVersion } from '@game-version/schema/game-version.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Damage } from '@pokemon-move-detail/enum/damage.enum';
 import { LearnMethod } from '@pokemon-move-detail/enum/learn-method.enum';
 import { PokemonMove } from '@pokemon-move/schema/pokemon-move.schema';
 import { PokemonType } from '@pokemon-type/schema/pokemon-type.schema';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export type PokemonMoveDetailDocument = PokemonMoveDetail & Document;
 
@@ -15,22 +16,25 @@ export class PokemonMoveDetail {
   @Prop({ type: LearnMethod, required: true, trim: true })
   learnMethod: LearnMethod;
 
-  // @Prop({
-  //   type: MongooseSchema.Types.ObjectId,
-  //   ref: 'GameVersion',
-  //   autopopulate: true
-  // })
-  // version: GameVersion;
+  @Prop({
+    required: true,
+    type: Types.ObjectId,
+    ref: 'GameVersion',
+    autopopulate: true
+  })
+  version: GameVersion;
 
   @Prop({
-    type: MongooseSchema.Types.ObjectId,
+    required: true,
+    type: Types.ObjectId,
     ref: 'PokemonMove',
     autopopulate: true
   })
   pokemonMove: PokemonMove;
 
   @Prop({
-    type: MongooseSchema.Types.ObjectId,
+    required: true,
+    type: Types.ObjectId,
     ref: 'PokemonType',
     autopopulate: true
   })

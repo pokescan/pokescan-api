@@ -15,7 +15,9 @@ export class CreatePokemonMoveDetailDto {
   @Field(() => LearnMethod)
   learnMethod?: LearnMethod;
 
-  // version?: GameVersionDto;
+  @IsNotEmpty()
+  @Field()
+  version: string;
 
   @IsNotEmpty()
   @Field()

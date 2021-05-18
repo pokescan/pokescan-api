@@ -1,3 +1,4 @@
+import { IGameVersion } from '@game-version/interface/game-version.interface';
 import { Damage } from '@pokemon-move-detail/enum/damage.enum';
 import { LearnMethod } from '@pokemon-move-detail/enum/learn-method.enum';
 import { IPokemonMove } from '@pokemon-move/interface/pokemon-move.interface';
@@ -8,7 +9,7 @@ export interface IPokemonMoveDetail {
 
   learnMethod?: LearnMethod;
 
-  // version?: IGameVersion;
+  version?: IGameVersion;
 
   pokemonMove?: IPokemonMove;
 

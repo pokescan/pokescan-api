@@ -1,3 +1,4 @@
+import { GameVersionDto } from '@game-version/dto/game-version.dto';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { Damage } from '@pokemon-move-detail/enum/damage.enum';
 import { LearnMethod } from '@pokemon-move-detail/enum/learn-method.enum';
@@ -14,7 +15,8 @@ export class PokemonMoveDetailDto extends CommonDto {
   @Field(() => LearnMethod)
   learnMethod?: LearnMethod;
 
-  // version?: GameVersionDto;
+  @Field(() => GameVersionDto)
+  version?: GameVersionDto;
 
   @Field(() => PokemonMoveDto)
   pokemonMove?: PokemonMoveDto;
@@ -52,6 +54,7 @@ export class PokemonMoveDetailDto extends CommonDto {
     if (model) {
       this.levelLearnedAt = model.levelLearnedAt;
       this.learnMethod = model.learnMethod;
+      this.version = model.version;
       this.pokemonMove = model.pokemonMove;
       this.pokemonType = model.pokemonType;
       this.accuracy = model.accuracy;

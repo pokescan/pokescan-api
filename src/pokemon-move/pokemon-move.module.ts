@@ -1,3 +1,4 @@
+import { GameVersionModule } from '@game-version/game-version.module';
 import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PokemonMoveDetailModule } from '@pokemon-move-detail/pokemon-move-detail.module';
@@ -10,6 +11,7 @@ import { PokemonMoveService } from './service/pokemon-move.service';
   imports: [
     forwardRef(() => PokemonMoveDetailModule),
     forwardRef(() => PokemonTypeModule),
+    forwardRef(() => GameVersionModule),
     MongooseModule.forFeature([
       { name: PokemonMove.name, schema: PokemonMoveSchema }
     ])

@@ -141,6 +141,38 @@ type LocationPaginated {
   metadata: LocationMetadata!
 }
 
+type GameVersionDto {
+  """
+  Id of the object
+  """
+  id: ID!
+
+  """
+  Latest update date for object
+  """
+  updatedAt: String!
+
+  """
+  Creation date for object
+  """
+  createdAt: String!
+  name: String!
+  imageUrl: String!
+  generation: GenerationDto!
+}
+
+type GameVersionMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type GameVersionPaginated {
+  items: [GameVersionDto!]
+  metadata: GameVersionMetadata!
+}
+
 type PokemonTypeDto {
   """
   Id of the object
@@ -212,6 +244,7 @@ type PokemonMoveDetailDto {
   createdAt: String!
   levelLearnedAt: Int!
   learnMethod: LearnMethod!
+  version: GameVersionDto!
   pokemonMove: PokemonMoveDto!
   pokemonType: PokemonTypeDto!
   accuracy: Int!
@@ -258,38 +291,6 @@ type RegionPaginated {
   metadata: RegionMetadata!
 }
 
-type GameVersionDto {
-  """
-  Id of the object
-  """
-  id: ID!
-
-  """
-  Latest update date for object
-  """
-  updatedAt: String!
-
-  """
-  Creation date for object
-  """
-  createdAt: String!
-  name: String!
-  imageUrl: String!
-  generation: GenerationDto!
-}
-
-type GameVersionMetadata {
-  totalCount: Int!
-  hasNextPage: Boolean!
-  limit: Int!
-  offset: Int!
-}
-
-type GameVersionPaginated {
-  items: [GameVersionDto!]
-  metadata: GameVersionMetadata!
-}
-
 type Query {
   findAllAbilitys(offset: Int = 0, limit: Int = 10): AbilityPaginated!
   ability(id: String!): AbilityDto!
@@ -297,14 +298,14 @@ type Query {
   pokemonMove(id: String!): PokemonMoveDto!
   findAllPokemonTypes(offset: Int = 0, limit: Int = 10): PokemonTypePaginated!
   pokemonType(id: String!): PokemonTypeDto!
+  findAllGameVersions(offset: Int = 0, limit: Int = 10): GameVersionPaginated!
+  gameVersion(id: String!): GameVersionDto!
+  findAllGenerations(offset: Int = 0, limit: Int = 10): GenerationPaginated!
+  generation(id: String!): GenerationDto!
   findAllRegions(offset: Int = 0, limit: Int = 10): RegionPaginated!
   region(id: String!): RegionDto!
   findAllLocations(offset: Int = 0, limit: Int = 10): LocationPaginated!
   location(id: String!): LocationDto!
-  findAllGenerations(offset: Int = 0, limit: Int = 10): GenerationPaginated!
-  generation(id: String!): GenerationDto!
-  findAllGameVersions(offset: Int = 0, limit: Int = 10): GameVersionPaginated!
-  gameVersion(id: String!): GameVersionDto!
 }
 
 type Mutation {
@@ -333,15 +334,17 @@ type Mutation {
     id: String!
   ): PokemonTypeDto!
   removePokemonType(id: String!): PokemonTypeDto
+  createGameVersion(createGameVersion: CreateGameVersionDto!): GameVersionDto!
+  updateGameVersion(updateGameVersion: UpdateGameVersionDto!): GameVersionDto!
+  removeGameVersion(id: String!): GameVersionDto
+  createGeneration(generationInputDto: GenerationInputDto!): GenerationDto!
+  removeGeneration(id: String!): GenerationDto
   createRegion(regionInputDto: RegionInputDto!): RegionDto!
   updateRegion(regionInputDto: RegionInputDto!, id: String!): RegionDto!
   removeRegion(id: String!): RegionDto
   createLocation(locationInputDto: LocationInputDto!): LocationDto!
   updateLocation(locationInputDto: LocationInputDto!, id: String!): LocationDto!
   removeLocation(id: String!): AbilityDto
-  createGeneration(generationInputDto: GenerationInputDto!): GenerationDto!
-  removeGeneration(id: String!): GenerationDto
-  createGameVersion(createGameVersion: CreateGameVersionDto!): GameVersionDto!
 }
 
 input CreateAbilityDto {
@@ -375,6 +378,7 @@ input UpdatePokemonMoveDto {
 input CreatePokemonMoveDetailDto {
   levelLearnedAt: Int!
   learnMethod: LearnMethod!
+  version: String!
   pokemonType: String!
   pokemonMove: String
   accuracy: Int!
@@ -390,6 +394,7 @@ input CreatePokemonMoveDetailDto {
 input UpdatePokemonMoveDetailDto {
   levelLearnedAt: Int
   learnMethod: LearnMethod
+  version: String
   pokemonType: String
   pokemonMove: String
   accuracy: Int
@@ -407,6 +412,25 @@ input PokemonTypeInputDto {
   Name of the pokemon type
   """
   name: String!
+}
+
+input CreateGameVersionDto {
+  name: String!
+  imageUrl: String!
+  generation: String!
+}
+
+input UpdateGameVersionDto {
+  imageUrl: String!
+  generation: String!
+  id: String!
+}
+
+input GenerationInputDto {
+  """
+  The order of the generation
+  """
+  order: Int!
 }
 
 input RegionInputDto {
@@ -431,17 +455,4 @@ input LocationInputDto {
   Id of the region
   """
   region: String!
-}
-
-input GenerationInputDto {
-  """
-  The order of the generation
-  """
-  order: Int!
-}
-
-input CreateGameVersionDto {
-  name: String!
-  imageUrl: String!
-  generation: String!
 }
