@@ -1,4 +1,3 @@
-import { AbilityDto } from '@ability/dto/ability.dto';
 import { LocationInputDto } from '@location/dto/location-input.dto';
 import { LocationDto } from '@location/dto/location.dto';
 import { LocationDocument } from '@location/schema/location.schema';
@@ -70,7 +69,7 @@ export class LocationResolver extends BaseResolver(LocationDto) {
     }
   }
 
-  @Mutation(() => AbilityDto, { nullable: true })
+  @Mutation(() => LocationDto, { nullable: true })
   async removeLocation(@Args('id') id: string): Promise<void> {
     try {
       await this.locationService.delete(id);
