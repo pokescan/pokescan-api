@@ -1,4 +1,4 @@
-import { GenerationInputDto } from '@generation/dto/generation-input.dto';
+import { CreateGenerationDto } from '@generation/dto/create-generation.dto';
 import {
   Generation,
   GenerationDocument
@@ -11,7 +11,7 @@ import { Model } from 'mongoose';
 @Injectable()
 export class GenerationService extends AbstractService<
   GenerationDocument,
-  GenerationInputDto
+  CreateGenerationDto
 > {
   constructor(
     @InjectModel(Generation.name) generationModel: Model<GenerationDocument>

@@ -2,7 +2,7 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 @InputType()
-export class RegionInputDto {
+export class CreateRegionDto {
   @IsNotEmpty()
   @IsString()
   @Field({ description: 'Name of the region' })

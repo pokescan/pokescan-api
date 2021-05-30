@@ -1,4 +1,4 @@
-import { LocationInputDto } from '@location/dto/location-input.dto';
+import { CreateLocationDto } from '@location/dto/create-location.dto';
 import { LocationDto } from '@location/dto/location.dto';
 import { LocationDocument } from '@location/schema/location.schema';
 import { LocationService } from '@location/service/location.service';
@@ -17,17 +17,17 @@ export class LocationResolver extends BaseResolver(LocationDto) {
 
   @Mutation(() => LocationDto)
   async createLocation(
-    @Args('locationInputDto') locationInputDto: LocationInputDto
+    @Args('createLocationDto') createLocationDto: CreateLocationDto
   ): Promise<LocationDto> {
     try {
-      const location = await this.locationService.create(locationInputDto);
+      const location = await this.locationService.create(createLocationDto);
       return new LocationDto(location);
     } catch (error) {
       this.LOGGER.error(`Create request failed because: ${error}`);
 
       if (error.code === MongoHttpStatus.DUPLICATE_KEY) {
         throw new ConflictException(
-          `An object with name ${locationInputDto.name} already exists`
+          `An object with name ${createLocationDto.name} already exists`
         );
       }
 
@@ -44,26 +44,6 @@ export class LocationResolver extends BaseResolver(LocationDto) {
     } catch (error) {
       this.LOGGER.error(
         `Cannot find location by its id ${id} because: ${error}`
-      );
-      throw new BadRequestException(error);
-    }
-  }
-
-  @Mutation(() => LocationDto)
-  async updateLocation(
-    @Args('id') id: string,
-    @Args('locationInputDto') locationInputDto: LocationInputDto
-  ): Promise<LocationDto> {
-    try {
-      const location: LocationDocument = await this.locationService.update(
-        id,
-        locationInputDto
-      );
-
-      return new LocationDto(location);
-    } catch (error) {
-      this.LOGGER.error(
-        `Cannot update location with id ${id} because: ${error}`
       );
       throw new BadRequestException(error);
     }

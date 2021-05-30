@@ -1,6 +1,6 @@
 import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { RegionInputDto } from '@region/dto/region-input.dto';
+import { CreateRegionDto } from '@region/dto/create-region.dto';
 import { RegionDto } from '@region/dto/region.dto';
 import { RegionDocument } from '@region/schema/region.schema';
 import { RegionService } from '@region/service/region.service';
@@ -17,17 +17,17 @@ export class RegionResolver extends BaseResolver(RegionDto) {
 
   @Mutation(() => RegionDto)
   async createRegion(
-    @Args('regionInputDto') regionInputDto: RegionInputDto
+    @Args('regionInputDto') createRegion: CreateRegionDto
   ): Promise<RegionDto> {
     try {
-      const region = await this.regionService.create(regionInputDto);
+      const region = await this.regionService.create(createRegion);
       return new RegionDto(region);
     } catch (error) {
       this.LOGGER.error(`Create request failed because: ${error}`);
 
       if (error.code === MongoHttpStatus.DUPLICATE_KEY) {
         throw new ConflictException(
-          `An object with name ${regionInputDto.name} already exists`
+          `An object with name ${createRegion.name} already exists`
         );
       }
 
@@ -45,25 +45,6 @@ export class RegionResolver extends BaseResolver(RegionDto) {
       return new RegionDto(region);
     } catch (error) {
       this.LOGGER.error(`Cannot find region by its id ${id} because: ${error}`);
-
-      throw new BadRequestException(error);
-    }
-  }
-
-  @Mutation(() => RegionDto)
-  async updateRegion(
-    @Args('id') id: string,
-    @Args('regionInputDto') regionInputDto: RegionInputDto
-  ): Promise<RegionDto> {
-    try {
-      const region: RegionDocument = await this.regionService.update(
-        id,
-        regionInputDto
-      );
-
-      return new RegionDto(region);
-    } catch (error) {
-      this.LOGGER.error(`Cannot update region with id ${id} because: ${error}`);
 
       throw new BadRequestException(error);
     }

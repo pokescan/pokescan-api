@@ -68,13 +68,12 @@ export class PokemonMoveResolver extends BaseResolver(PokemonMoveDto) {
 
   @Mutation(() => PokemonMoveDto)
   async updatePokemonMove(
-    @Args('id') id: string,
-    @Args('updatePokemonMoveDto') updatePokemonMoveDto: UpdatePokemonMoveDto
-  ): Promise<UpdatePokemonMoveDto> {
+    @Args('updatePokemonMoveDto') { id, ...dto }: UpdatePokemonMoveDto
+  ): Promise<PokemonMoveDto> {
     try {
       const pokemonMove: PokemonMoveDocument = await this.pokemonMoveService.update(
         id,
-        updatePokemonMoveDto
+        dto
       );
 
       return new PokemonMoveDto(pokemonMove);
