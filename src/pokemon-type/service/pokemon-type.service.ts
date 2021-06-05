@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { PokemonTypeInputDto } from '@pokemon-type/dto/pokemon-type-input.dto';
+import { CreatePokemonTypeDto } from '@pokemon-type/dto/create-pokemon-type.dto';
 import { AbstractService } from '@shared/services/abstract/abstract.service';
 import { Model } from 'mongoose';
 import {
@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class PokemonTypeService extends AbstractService<
   PokemonTypeDocument,
-  PokemonTypeInputDto
+  CreatePokemonTypeDto
 > {
   constructor(
     @InjectModel(PokemonType.name) pokemonTypeModel: Model<PokemonTypeDocument>

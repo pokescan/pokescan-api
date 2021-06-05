@@ -1,4 +1,4 @@
-import { GenerationInputDto } from '@generation/dto/generation-input.dto';
+import { CreateGenerationDto } from '@generation/dto/create-generation.dto';
 import { GenerationDto } from '@generation/dto/generation.dto';
 import { GenerationDocument } from '@generation/schema/generation.schema';
 import { GenerationService } from '@generation/service/generation.service';
@@ -17,11 +17,11 @@ export class GenerationResolver extends BaseResolver(GenerationDto) {
 
   @Mutation(() => GenerationDto)
   async createGeneration(
-    @Args('generationInputDto') generationInputDto: GenerationInputDto
+    @Args('createGenerationDto') createGenerationDto: CreateGenerationDto
   ): Promise<GenerationDto> {
     try {
       const generation: GenerationDocument = await this.generationService.create(
-        generationInputDto
+        createGenerationDto
       );
       return new GenerationDto(generation);
     } catch (error) {
@@ -29,7 +29,7 @@ export class GenerationResolver extends BaseResolver(GenerationDto) {
 
       if (error.code === MongoHttpStatus.DUPLICATE_KEY) {
         throw new ConflictException(
-          `An object with name ${generationInputDto.order} already exists`
+          `An object with name ${createGenerationDto.order} already exists`
         );
       }
 

@@ -75,6 +75,38 @@ type GenerationPaginated {
   metadata: GenerationMetadata!
 }
 
+type GameVersionDto {
+  """
+  Id of the object
+  """
+  id: ID!
+
+  """
+  Latest update date for object
+  """
+  updatedAt: String!
+
+  """
+  Creation date for object
+  """
+  createdAt: String!
+  name: String!
+  imageUrl: String!
+  generation: GenerationDto!
+}
+
+type GameVersionMetadata {
+  totalCount: Int!
+  hasNextPage: Boolean!
+  limit: Int!
+  offset: Int!
+}
+
+type GameVersionPaginated {
+  items: [GameVersionDto!]
+  metadata: GameVersionMetadata!
+}
+
 type RegionDto {
   """
   Id of the object
@@ -139,38 +171,6 @@ type LocationMetadata {
 type LocationPaginated {
   items: [LocationDto!]
   metadata: LocationMetadata!
-}
-
-type GameVersionDto {
-  """
-  Id of the object
-  """
-  id: ID!
-
-  """
-  Latest update date for object
-  """
-  updatedAt: String!
-
-  """
-  Creation date for object
-  """
-  createdAt: String!
-  name: String!
-  imageUrl: String!
-  generation: GenerationDto!
-}
-
-type GameVersionMetadata {
-  totalCount: Int!
-  hasNextPage: Boolean!
-  limit: Int!
-  offset: Int!
-}
-
-type GameVersionPaginated {
-  items: [GameVersionDto!]
-  metadata: GameVersionMetadata!
 }
 
 type PokemonTypeDto {
@@ -310,12 +310,11 @@ type Query {
 
 type Mutation {
   createAbility(abilityInputDto: CreateAbilityDto!): AbilityDto!
-  updateAbility(abilityInputDto: UpdateAbilityDto!, id: String!): AbilityDto!
+  updateAbility(abilityInputDto: UpdateAbilityDto!): AbilityDto!
   removeAbility(id: String!): AbilityDto
   createPokemonMove(pokemonMoveInputDto: CreatePokemonMoveDto!): PokemonMoveDto!
   updatePokemonMove(
     updatePokemonMoveDto: UpdatePokemonMoveDto!
-    id: String!
   ): PokemonMoveDto!
   removePokemonMove(id: String!): PokemonMoveDto
   createPokemonMoveDetail(
@@ -328,23 +327,17 @@ type Mutation {
     pokemonMoveId: String!
   ): PokemonMoveDetailDto!
   removePokemonMoveDetail(pokemonMoveDetailId: String!): PokemonMoveDetailDto
-  createPokemonType(pokemonTypeInputDto: PokemonTypeInputDto!): PokemonTypeDto!
-  updatePokemonType(
-    pokemonTypeInputDto: PokemonTypeInputDto!
-    id: String!
-  ): PokemonTypeDto!
+  createPokemonType(createPokemonType: CreatePokemonTypeDto!): PokemonTypeDto!
   removePokemonType(id: String!): PokemonTypeDto
   createGameVersion(createGameVersion: CreateGameVersionDto!): GameVersionDto!
   updateGameVersion(updateGameVersion: UpdateGameVersionDto!): GameVersionDto!
   removeGameVersion(id: String!): GameVersionDto
-  createGeneration(generationInputDto: GenerationInputDto!): GenerationDto!
+  createGeneration(createGenerationDto: CreateGenerationDto!): GenerationDto!
   removeGeneration(id: String!): GenerationDto
-  createRegion(regionInputDto: RegionInputDto!): RegionDto!
-  updateRegion(regionInputDto: RegionInputDto!, id: String!): RegionDto!
+  createRegion(regionInputDto: CreateRegionDto!): RegionDto!
   removeRegion(id: String!): RegionDto
-  createLocation(locationInputDto: LocationInputDto!): LocationDto!
-  updateLocation(locationInputDto: LocationInputDto!, id: String!): LocationDto!
-  removeLocation(id: String!): AbilityDto
+  createLocation(createLocationDto: CreateLocationDto!): LocationDto!
+  removeLocation(id: String!): LocationDto
 }
 
 input CreateAbilityDto {
@@ -364,6 +357,11 @@ input UpdateAbilityDto {
   Description of the ability
   """
   description: String!
+
+  """
+  Id of the ability to update
+  """
+  id: String!
 }
 
 input CreatePokemonMoveDto {
@@ -373,6 +371,7 @@ input CreatePokemonMoveDto {
 
 input UpdatePokemonMoveDto {
   description: String!
+  id: String!
 }
 
 input CreatePokemonMoveDetailDto {
@@ -407,7 +406,7 @@ input UpdatePokemonMoveDetailDto {
   contestLocking: Int
 }
 
-input PokemonTypeInputDto {
+input CreatePokemonTypeDto {
   """
   Name of the pokemon type
   """
@@ -426,14 +425,14 @@ input UpdateGameVersionDto {
   id: String!
 }
 
-input GenerationInputDto {
+input CreateGenerationDto {
   """
   The order of the generation
   """
   order: Int!
 }
 
-input RegionInputDto {
+input CreateRegionDto {
   """
   Name of the region
   """
@@ -445,7 +444,7 @@ input RegionInputDto {
   generation: String!
 }
 
-input LocationInputDto {
+input CreateLocationDto {
   """
   Name of the location
   """

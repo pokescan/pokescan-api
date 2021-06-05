@@ -56,13 +56,12 @@ export class AbilityResolver extends BaseResolver(AbilityDto) {
 
   @Mutation(() => AbilityDto)
   async updateAbility(
-    @Args('id') id: string,
-    @Args('abilityInputDto') abilityInputDto: UpdateAbilityDto
+    @Args('abilityInputDto') { id, ...dto }: UpdateAbilityDto
   ): Promise<AbilityDto> {
     try {
       const ability: AbilityDocument = await this.abilityService.update(
         id,
-        abilityInputDto
+        dto
       );
 
       return new AbilityDto(ability);
