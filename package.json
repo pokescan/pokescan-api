@@ -10,7 +10,6 @@
     "prebuild": "rimraf dist",
     "pretest": "jest --clearCache",
     "build": "nest build",
-    "build:prod": "nest build --prod",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
