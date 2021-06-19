@@ -14,8 +14,8 @@ export class AbilityDto extends CommonDto {
     super(model);
 
     if (model) {
-      this.name = model.name;
-      this.description = model.description;
+      // this.name = model.name;
+      // this.description = model.description;
     }
   }
 }
