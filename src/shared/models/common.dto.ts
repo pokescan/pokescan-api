@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { ITranslatableObject } from '@shared/interfaces/translatable-object.interface';
 
 @ObjectType()
 export class CommonDto {
@@ -17,5 +18,13 @@ export class CommonDto {
       this.updatedAt = model.updatedAt;
       this.createdAt = model.createdAt;
     }
+  }
+
+  protected getValueAccordingToLanguage(
+    language: string,
+    variableName: string,
+    values: ITranslatableObject[]
+  ): string {
+    return '';
   }
 }
