@@ -1,7 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { TranslatableObject } from '@shared/models/translatable';
 
 @InputType()
 export class CreateEggGroupDto {
-  @Field({ description: 'Name of the egg group' })
-  name: string;
+  @Field(() => [TranslatableObject], {
+    description: 'Name of the ability'
+  })
+  name: TranslatableObject[];
 }
