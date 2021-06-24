@@ -3,7 +3,6 @@ import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
 import { BaseResolver } from '@shared/functions/base-resolver';
-import { LanguageService } from '@shared/services/language/language.service';
 import { AbilityDto } from '../dto/ability.dto';
 import { CreateAbilityDto } from '../dto/create-ability.dto';
 import { AbilityDocument } from '../schema/ability.schema';
@@ -13,10 +12,7 @@ import { AbilityService } from '../service/ability.service';
 export class AbilityResolver extends BaseResolver(AbilityDto) {
   private readonly LOGGER = new Logger(AbilityResolver.name);
 
-  constructor(
-    private readonly abilityService: AbilityService,
-    private languageService: LanguageService
-  ) {
+  constructor(private readonly abilityService: AbilityService) {
     super(abilityService);
   }
 
@@ -29,7 +25,7 @@ export class AbilityResolver extends BaseResolver(AbilityDto) {
         abilityInputDto
       );
 
-      return new AbilityDto(this.languageService.currentLanguage, ability);
+      return new AbilityDto(ability);
     } catch (error) {
       this.LOGGER.error(`Create request failed because: ${error}`);
 
@@ -50,7 +46,7 @@ export class AbilityResolver extends BaseResolver(AbilityDto) {
     try {
       const ability: AbilityDocument = await this.abilityService.find(id);
 
-      return new AbilityDto(this.languageService.currentLanguage, ability);
+      return new AbilityDto(ability);
     } catch (error) {
       this.LOGGER.error(
         `Cannot find ability by its id ${id} because: ${error}`
@@ -64,12 +60,25 @@ export class AbilityResolver extends BaseResolver(AbilityDto) {
     @Args('abilityInputDto') { id, ...dto }: UpdateAbilityDto
   ): Promise<AbilityDto> {
     try {
+      const abilityToUpdate: AbilityDocument = await this.abilityService.find(
+        id
+      );
+
+      if (!abilityToUpdate) {
+        this.LOGGER.error(
+          `Cannot update ability with id #${id} because it does not exist`
+        );
+        throw new BadRequestException(
+          `Cannot update ability with id #${id} because it does not exist`
+        );
+      }
+
       const ability: AbilityDocument = await this.abilityService.update(
         id,
         dto
       );
 
-      return new AbilityDto(this.languageService.currentLanguage, ability);
+      return new AbilityDto(ability);
     } catch (error) {
       this.LOGGER.error(
         `Cannot update ability with id ${id} because: ${error}`

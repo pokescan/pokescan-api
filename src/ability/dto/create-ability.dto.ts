@@ -1,20 +1,25 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { TranslatableObjectDto } from '@shared/models/translatable-object.dto';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { TranslatableObject } from '@shared/models/translatable';
+import { Type } from 'class-transformer';
+import { ArrayNotEmpty, IsArray, ValidateNested } from 'class-validator';
 
 @InputType()
 export class CreateAbilityDto {
-  @IsString()
-  @IsNotEmpty()
-  @Field(() => [TranslatableObjectDto], {
+  @IsArray()
+  @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => TranslatableObject)
+  @Field(() => [TranslatableObject], {
     description: 'Name of the ability, multiple languages supported'
   })
-  name: TranslatableObjectDto[];
+  name: TranslatableObject[];
 
-  @IsString()
-  @IsNotEmpty()
-  @Field(() => [TranslatableObjectDto], {
+  @IsArray()
+  @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => TranslatableObject)
+  @Field(() => [TranslatableObject], {
     description: 'Description of the ability, multiple languages supported'
   })
-  description: TranslatableObjectDto[];
+  description: TranslatableObject[];
 }

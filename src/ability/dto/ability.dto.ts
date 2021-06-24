@@ -1,24 +1,26 @@
 import { IAbility } from '@ability/interface/ability.interface';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { CommonDto } from '@shared/models/common.dto';
+import { TranslatableObject } from '@shared/models/translatable';
 
 @ObjectType()
 export class AbilityDto extends CommonDto {
-  @Field({ description: 'Name of the ability' })
-  name: string;
+  @Field(() => [TranslatableObject], {
+    description: 'Name of the ability'
+  })
+  name: TranslatableObject[];
 
-  @Field({ description: 'Description of the ability' })
-  description: string;
+  @Field(() => [TranslatableObject], {
+    description: 'Description of the ability'
+  })
+  description: TranslatableObject[];
 
-  constructor(language: string, model?: IAbility) {
+  constructor(model?: IAbility) {
     super(model);
 
     if (model) {
-      this.name = super.getValueAccordingToLanguage(language, model.name);
-      this.description = super.getValueAccordingToLanguage(
-        language,
-        model.description
-      );
+      this.name = model.name;
+      this.description = model.description;
     }
   }
 }

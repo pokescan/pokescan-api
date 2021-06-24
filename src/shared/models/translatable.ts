@@ -1,8 +1,9 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { IsNotEmpty, IsString } from 'class-validator';
 
-@InputType()
-export class TranslatableObjectDto {
+@InputType('TranslatableObjectInput')
+@ObjectType('TranslatableObjectOutput')
+export class TranslatableObject {
   @IsString()
   @IsNotEmpty()
   @Field({ description: 'The language that is related to the value' })
