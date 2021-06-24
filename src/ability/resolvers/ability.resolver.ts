@@ -3,6 +3,7 @@ import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
 import { BaseResolver } from '@shared/functions/base-resolver';
+import { LanguageService } from '@shared/services/language/language.service';
 import { AbilityDto } from '../dto/ability.dto';
 import { CreateAbilityDto } from '../dto/create-ability.dto';
 import { AbilityDocument } from '../schema/ability.schema';
@@ -12,7 +13,10 @@ import { AbilityService } from '../service/ability.service';
 export class AbilityResolver extends BaseResolver(AbilityDto) {
   private readonly LOGGER = new Logger(AbilityResolver.name);
 
-  constructor(private readonly abilityService: AbilityService) {
+  constructor(
+    private readonly abilityService: AbilityService,
+    private languageService: LanguageService
+  ) {
     super(abilityService);
   }
 
@@ -24,7 +28,8 @@ export class AbilityResolver extends BaseResolver(AbilityDto) {
       const ability: AbilityDocument = await this.abilityService.create(
         abilityInputDto
       );
-      return new AbilityDto(ability);
+
+      return new AbilityDto(this.languageService.currentLanguage, ability);
     } catch (error) {
       this.LOGGER.error(`Create request failed because: ${error}`);
 
@@ -45,7 +50,7 @@ export class AbilityResolver extends BaseResolver(AbilityDto) {
     try {
       const ability: AbilityDocument = await this.abilityService.find(id);
 
-      return new AbilityDto(ability);
+      return new AbilityDto(this.languageService.currentLanguage, ability);
     } catch (error) {
       this.LOGGER.error(
         `Cannot find ability by its id ${id} because: ${error}`
@@ -64,7 +69,7 @@ export class AbilityResolver extends BaseResolver(AbilityDto) {
         dto
       );
 
-      return new AbilityDto(ability);
+      return new AbilityDto(this.languageService.currentLanguage, ability);
     } catch (error) {
       this.LOGGER.error(
         `Cannot update ability with id ${id} because: ${error}`

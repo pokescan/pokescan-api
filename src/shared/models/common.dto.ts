@@ -1,4 +1,5 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { DEFAULT_LANGUAGE } from '@shared/constants';
 import { ITranslatableObject } from '@shared/interfaces/translatable-object.interface';
 
 @ObjectType()
@@ -20,11 +21,16 @@ export class CommonDto {
     }
   }
 
-  protected getValueAccordingToLanguage(
+  protected getValueAccordingToLanguage?(
     language: string,
-    variableName: string,
     values: ITranslatableObject[]
   ): string {
-    return '';
+    const translation = values.find(value => value.key === language);
+
+    const defaultTranslation = values.find(
+      value => value.key === DEFAULT_LANGUAGE
+    );
+
+    return (translation || defaultTranslation).value;
   }
 }

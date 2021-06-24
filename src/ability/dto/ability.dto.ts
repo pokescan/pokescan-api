@@ -10,12 +10,15 @@ export class AbilityDto extends CommonDto {
   @Field({ description: 'Description of the ability' })
   description: string;
 
-  constructor(model?: IAbility) {
+  constructor(language: string, model?: IAbility) {
     super(model);
 
     if (model) {
-      // this.name = model.name;
-      // this.description = model.description;
+      this.name = super.getValueAccordingToLanguage(language, model.name);
+      this.description = super.getValueAccordingToLanguage(
+        language,
+        model.description
+      );
     }
   }
 }
