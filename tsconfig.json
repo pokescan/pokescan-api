@@ -16,6 +16,7 @@
     "strictNullChecks": false,
     "paths": {
       "@ability/*": ["src/ability/*"],
+      "@egg-group/*": ["src/egg-group/*"],
       "@pokemon-move/*": ["src/pokemon-move/*"],
       "@pokemon-move-detail/*": ["src/pokemon-move-detail/*"],
       "@game-version/*": ["src/game-version/*"],
