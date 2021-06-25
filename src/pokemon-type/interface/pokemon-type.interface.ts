@@ -1,3 +1,5 @@
+import { ITranslatableObject } from '@shared/interfaces/translatable-object.interface';
+
 export interface IPokemonType {
-  name: string;
+  name: ITranslatableObject[];
 }
