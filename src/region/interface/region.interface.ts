@@ -1,7 +1,8 @@
 import { IGeneration } from '@generation/interface/generation.inteface';
+import { ITranslatableObject } from '@shared/interfaces/translatable-object.interface';
 
 export interface IRegion {
-  name: string;
+  name: ITranslatableObject[];
 
   generation: IGeneration;
 }
