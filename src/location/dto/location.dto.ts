@@ -2,11 +2,14 @@ import { ILocation } from '@location/interface/location.interface';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { RegionDto } from '@region/dto/region.dto';
 import { CommonDto } from '@shared/models/common.dto';
+import { TranslatableObject } from '@shared/models/translatable';
 
 @ObjectType()
 export class LocationDto extends CommonDto {
-  @Field({ description: 'Name of the location' })
-  name: string;
+  @Field(() => [TranslatableObject], {
+    description: 'Name of the location'
+  })
+  name: TranslatableObject[];
 
   @Field({ description: 'Region of the location' })
   region: RegionDto;
