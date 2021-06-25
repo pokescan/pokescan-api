@@ -1,8 +1,9 @@
 import { IGameVersion } from '@game-version/interface/game-version.interface';
 import { ILocation } from '@location/interface/location.interface';
+import { TranslatableObject } from '@shared/models/translatable';
 
 export interface IPokemonEncounter {
-  name: string;
+  name: TranslatableObject[];
   gameVersion: IGameVersion;
   location: ILocation;
   // pokemon: IPokemon;

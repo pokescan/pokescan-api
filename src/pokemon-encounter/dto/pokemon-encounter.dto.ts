@@ -4,11 +4,14 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { IPokemonEncounter } from '@pokemon-encounter/interface/pokemon-encounter.interface';
 import { PokemonDto } from '@pokemon/dto/pokemon.dto';
 import { CommonDto } from '@shared/models/common.dto';
+import { TranslatableObject } from '@shared/models/translatable';
 
 @ObjectType()
 export class PokemonEncounterDto extends CommonDto {
-  @Field()
-  name: string;
+  @Field(() => [TranslatableObject], {
+    description: 'Name of the encounter'
+  })
+  name: TranslatableObject[];
 
   @Field(() => GameVersionDto)
   gameVersion: GameVersionDto;

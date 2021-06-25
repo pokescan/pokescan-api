@@ -1,9 +1,12 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
+import { TranslatableObject } from '@shared/models/translatable';
 
 @InputType()
 export class CreatePokemonEncounter {
-  @Field()
-  name: string;
+  @Field(() => [TranslatableObject], {
+    description: 'Name of the encounter'
+  })
+  name: TranslatableObject[];
 
   @Field()
   gameVersion: string;
