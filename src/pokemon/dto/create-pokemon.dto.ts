@@ -87,15 +87,15 @@ export class CreatePokemonDto {
   @Field(() => Int)
   captureRate: number;
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  @Field(() => Int)
-  firstAppearenceGeneration: number;
+  @Field(() => String)
+  firstAppearenceGeneration: string;
 
   @IsArray()
   @IsNotEmpty()
-  @Field(() => Int)
-  eggsGroup: number[];
+  @Field(() => String)
+  eggsGroup: string[];
 
   @IsObject()
   @IsNotEmpty()

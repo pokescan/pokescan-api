@@ -3,6 +3,7 @@ import { IGeneration } from '@generation/interface/generation.inteface';
 import { IPokemonMove } from '@pokemon-move/interface/pokemon-move.interface';
 import { IPokemonType } from '@pokemon-type/interface/pokemon-type.interface';
 import { ITranslatableObject } from '@shared/interfaces/translatable-object.interface';
+import { IEggGroup } from 'src/egg-group/interface/egg-group.interface';
 import { IPokemonStatObject } from './pokemon-stat-object.interface';
 
 export interface IPokemon {
@@ -18,8 +19,8 @@ export interface IPokemon {
   cycle: number;
   step: number;
   captureRate: number;
-  firstAppearenceGeneration: number;
-  eggsGroup: string[];
+  firstAppearenceGeneration: IGeneration;
+  eggsGroup: IEggGroup[];
   genderRepartition: IPokemonGenderRepartition;
   generation: IGeneration;
   previousPokemon: IPokemon;

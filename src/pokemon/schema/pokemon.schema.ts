@@ -7,6 +7,7 @@ import { IPokemonGenderRepartition } from '@pokemon/interface/pokemon.interface'
 import { PokemonStatObject } from '@pokemon/models/pokemon-stat';
 import { TranslatableObject } from '@shared/models/translatable';
 import { Document, Types } from 'mongoose';
+import { EggGroup } from 'src/egg-group/schema/egg-group.schema';
 
 export type PokemonDocument = Pokemon & Document;
 
@@ -63,11 +64,21 @@ export class Pokemon {
   @Prop({ required: true, trim: true })
   captureRate: number;
 
-  @Prop({ required: true, trim: true })
-  firstAppearenceGeneration: number;
+  @Prop({
+    required: true,
+    type: Types.ObjectId,
+    ref: Generation.name,
+    autopopulate: true
+  })
+  firstAppearenceGeneration: Generation;
 
-  @Prop({ required: true, trim: true })
-  eggsGroup: number[];
+  @Prop({
+    required: true,
+    type: [Types.ObjectId],
+    ref: EggGroup.name,
+    autopopulate: true
+  })
+  eggsGroup: EggGroup[];
 
   @Prop({ required: true, trim: true })
   genderRepartition: IPokemonGenderRepartition;

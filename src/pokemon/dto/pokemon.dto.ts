@@ -8,6 +8,7 @@ import { PokemonStatObject } from '@pokemon/models/pokemon-stat';
 import { CommonDto } from '@shared/models/common.dto';
 import { TranslatableObject } from '@shared/models/translatable';
 import { IsArray } from 'class-validator';
+import { EggGroupDto } from 'src/egg-group/dto/egg-group.dto';
 
 export class PokemonDto extends CommonDto {
   @Field(() => [TranslatableObject], {
@@ -53,12 +54,12 @@ export class PokemonDto extends CommonDto {
   @Field(() => Int)
   captureRate: number;
 
-  @Field(() => Int)
-  firstAppearenceGeneration: number;
+  @Field(() => GenerationDto)
+  firstAppearenceGeneration: GenerationDto;
 
   @IsArray()
-  @Field(() => Int)
-  eggsGroup: number[];
+  @Field(() => EggGroupDto)
+  eggsGroup: EggGroupDto[];
 
   @Field()
   genderRepartition: IPokemonGenderRepartition;
