@@ -185,9 +185,11 @@ export class PokemonMoveResolver extends BaseResolver(PokemonMoveDto) {
   @Mutation(() => PokemonMoveDetailDto)
   async updatePokemonMoveDetail(
     @Args('pokemonMoveId') pokemonMoveId: string,
-    @Args('pokemonMoveDetailId') pokemonMoveDetailId: string,
     @Args('pokemonMoveDetailDto')
-    pokemonMoveDetailDto: UpdatePokemonMoveDetailDto
+    {
+      id: pokemonMoveDetailId,
+      ...pokemonMoveDetailDto
+    }: UpdatePokemonMoveDetailDto
   ): Promise<PokemonMoveDetailDto> {
     try {
       const pokemonMoveDetail: PokemonMoveDetailDocument = await this.pokemonMoveDetailService.find(

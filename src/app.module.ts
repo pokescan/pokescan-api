@@ -12,7 +12,7 @@ import { PokemonStatModule } from '@pokemon-stat/pokemon-stat.module';
 import { PokemonTypeModule } from '@pokemon-type/pokemon-type.module';
 import { RegionModule } from '@region/region.module';
 import { SharedModule } from '@shared/shared.module';
-import { PokemonModule } from './pokemon/pokemon.module';
+import { EggGroupModule } from './egg-group/egg-group.module';
 
 @Module({
   imports: [
@@ -42,7 +42,7 @@ import { PokemonModule } from './pokemon/pokemon.module';
     GenerationModule,
     PokemonStatModule,
     GameVersionModule,
-    PokemonModule
+    EggGroupModule
   ],
   controllers: [],
   providers: []
