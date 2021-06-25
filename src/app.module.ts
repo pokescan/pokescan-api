@@ -13,7 +13,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PokemonMoveDetailModule } from '@pokemon-move-detail/pokemon-move-detail.module';
 import { PokemonMoveModule } from '@pokemon-move/pokemon-move.module';
-import { PokemonStatModule } from '@pokemon-stat/pokemon-stat.module';
 import { PokemonTypeModule } from '@pokemon-type/pokemon-type.module';
 import { RegionModule } from '@region/region.module';
 import { LanguageMiddleware } from '@shared/middlewares/language.middleware';
@@ -46,7 +45,6 @@ import { EggGroupModule } from './egg-group/egg-group.module';
     RegionModule,
     LocationModule,
     GenerationModule,
-    PokemonStatModule,
     GameVersionModule,
     EggGroupModule
   ],
