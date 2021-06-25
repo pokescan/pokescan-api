@@ -1,13 +1,13 @@
 import { Ability } from '@ability/schema/ability.schema';
+import { EggGroup } from '@egg-group/schema/egg-group.schema';
 import { Generation } from '@generation/schema/generation.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { PokemonMove } from '@pokemon-move/schema/pokemon-move.schema';
 import { PokemonType } from '@pokemon-type/schema/pokemon-type.schema';
-import { IPokemonGenderRepartition } from '@pokemon/interface/pokemon.interface';
+import { PokemonGenderRepartitionObject } from '@pokemon/models/pokemon-gender-repartition';
 import { PokemonStatObject } from '@pokemon/models/pokemon-stat';
 import { TranslatableObject } from '@shared/models/translatable';
 import { Document, Types } from 'mongoose';
-import { EggGroup } from 'src/egg-group/schema/egg-group.schema';
 
 export type PokemonDocument = Pokemon & Document;
 
@@ -81,7 +81,7 @@ export class Pokemon {
   eggsGroup: EggGroup[];
 
   @Prop({ required: true, trim: true })
-  genderRepartition: IPokemonGenderRepartition;
+  genderRepartition: PokemonGenderRepartitionObject;
 
   @Prop({
     required: true,

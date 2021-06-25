@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { IPokemonGenderRepartition } from '@pokemon/interface/pokemon.interface';
+import { PokemonGenderRepartitionObject } from '@pokemon/models/pokemon-gender-repartition';
 import { PokemonStatObject } from '@pokemon/models/pokemon-stat';
 import { TranslatableObject } from '@shared/models/translatable';
 import { Type } from 'class-transformer';
@@ -99,8 +99,12 @@ export class CreatePokemonDto {
 
   @IsObject()
   @IsNotEmpty()
-  @Field()
-  genderRepartition: IPokemonGenderRepartition;
+  @Type(() => PokemonGenderRepartitionObject)
+  @Field(() => PokemonGenderRepartitionObject, {
+    description:
+      'Gender reparition of the pokemon, multiple languages supported'
+  })
+  genderRepartition: PokemonGenderRepartitionObject;
 
   @IsString()
   @IsNotEmpty()

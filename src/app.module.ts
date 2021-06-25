@@ -14,6 +14,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { PokemonMoveDetailModule } from '@pokemon-move-detail/pokemon-move-detail.module';
 import { PokemonMoveModule } from '@pokemon-move/pokemon-move.module';
 import { PokemonTypeModule } from '@pokemon-type/pokemon-type.module';
+import { PokemonModule } from '@pokemon/pokemon.module';
 import { RegionModule } from '@region/region.module';
 import { LanguageMiddleware } from '@shared/middlewares/language.middleware';
 import { SharedModule } from '@shared/shared.module';
@@ -39,6 +40,7 @@ import { EggGroupModule } from './egg-group/egg-group.module';
       introspection: true
     }),
     AbilityModule,
+    PokemonModule,
     PokemonMoveModule,
     PokemonMoveDetailModule,
     PokemonTypeModule,
