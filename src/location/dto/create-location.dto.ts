@@ -1,12 +1,15 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { TranslatableObject } from '@shared/models/translatable';
 import { IsNotEmpty, IsString } from 'class-validator';
 
 @InputType()
 export class CreateLocationDto {
   @IsString()
   @IsNotEmpty()
-  @Field({ description: 'Name of the location' })
-  name: string;
+  @Field(() => [TranslatableObject], {
+    description: 'Name of the location'
+  })
+  name: TranslatableObject[];
 
   @IsString()
   @IsNotEmpty()

@@ -4,7 +4,7 @@ import { TranslatableObject } from '@shared/models/translatable';
 @InputType()
 export class CreateEggGroupDto {
   @Field(() => [TranslatableObject], {
-    description: 'Name of the ability'
+    description: 'Name of the egg group'
   })
   name: TranslatableObject[];
 }

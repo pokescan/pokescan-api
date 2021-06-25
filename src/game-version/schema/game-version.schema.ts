@@ -1,5 +1,6 @@
 import { Generation } from '@generation/schema/generation.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { TranslatableObject } from '@shared/models/translatable';
 import { Document, Types } from 'mongoose';
 
 export type GameVersionDocument = GameVersion & Document;
@@ -7,7 +8,7 @@ export type GameVersionDocument = GameVersion & Document;
 @Schema({ timestamps: true, versionKey: false })
 export class GameVersion {
   @Prop({ required: true, trim: true, unique: true })
-  name: string;
+  name: TranslatableObject[];
 
   @Prop({ required: true, trim: true, unique: false })
   imageUrl: string;
