@@ -19,6 +19,7 @@ import { RegionModule } from '@region/region.module';
 import { LanguageMiddleware } from '@shared/middlewares/language.middleware';
 import { SharedModule } from '@shared/shared.module';
 import { EggGroupModule } from './egg-group/egg-group.module';
+import { PokemonEncounterModule } from './pokemon-encounter/pokemon-encounter.module';
 
 @Module({
   imports: [
@@ -48,7 +49,8 @@ import { EggGroupModule } from './egg-group/egg-group.module';
     LocationModule,
     GenerationModule,
     GameVersionModule,
-    EggGroupModule
+    EggGroupModule,
+    PokemonEncounterModule
   ],
   controllers: [],
   providers: []

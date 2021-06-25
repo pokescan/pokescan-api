@@ -26,6 +26,7 @@
       "@pokemon/*": ["src/pokemon/*"],
       "@pokemon-stat/*": ["src/pokemon-stat/*"],
       "@pokemon-type/*": ["src/pokemon-type/*"],
+      "@pokemon-encounter/*": ["src/pokemon-encounter/*"],
       "@shared/*": ["src/shared/*"]
     }
   }
