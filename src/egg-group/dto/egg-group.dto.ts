@@ -6,7 +6,7 @@ import { IEggGroup } from '../interface/egg-group.interface';
 @ObjectType()
 export class EggGroupDto extends CommonDto {
   @Field(() => [TranslatableObject], {
-    description: 'Name of the ability'
+    description: 'Name of the egg group'
   })
   name: TranslatableObject[];
 
