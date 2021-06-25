@@ -1,4 +1,6 @@
+import { ITranslatableObject } from '@shared/interfaces/translatable-object.interface';
+
 export interface IAbility {
-  name: string;
-  description: string;
+  name: ITranslatableObject[];
+  description: ITranslatableObject[];
 }

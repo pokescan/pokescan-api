@@ -24,6 +24,7 @@ export class AbilityResolver extends BaseResolver(AbilityDto) {
       const ability: AbilityDocument = await this.abilityService.create(
         abilityInputDto
       );
+
       return new AbilityDto(ability);
     } catch (error) {
       this.LOGGER.error(`Create request failed because: ${error}`);
@@ -59,6 +60,19 @@ export class AbilityResolver extends BaseResolver(AbilityDto) {
     @Args('abilityInputDto') { id, ...dto }: UpdateAbilityDto
   ): Promise<AbilityDto> {
     try {
+      const abilityToUpdate: AbilityDocument = await this.abilityService.find(
+        id
+      );
+
+      if (!abilityToUpdate) {
+        this.LOGGER.error(
+          `Cannot update ability with id #${id} because it does not exist`
+        );
+        throw new BadRequestException(
+          `Cannot update ability with id #${id} because it does not exist`
+        );
+      }
+
       const ability: AbilityDocument = await this.abilityService.update(
         id,
         dto
