@@ -1,16 +1,19 @@
 import { AbilityDto } from '@ability/dto/ability.dto';
 import { GenerationDto } from '@generation/dto/generation.dto';
 import { Field, Int } from '@nestjs/graphql';
-import { PokemonStatDto } from '@pokemon-stat/dto/pokemon-stat.dto';
-import { PokemonStat } from '@pokemon-stat/schema/pokemon-stat.schema';
+import { PokemonMoveDto } from '@pokemon-move/dto/pokemon-move.dto';
 import { PokemonTypeDto } from '@pokemon-type/dto/pokemon-type.dto';
 import { IPokemonGenderRepartition } from '@pokemon/interface/pokemon.interface';
+import { PokemonStatObject } from '@pokemon/models/pokemon-stat';
 import { CommonDto } from '@shared/models/common.dto';
+import { TranslatableObject } from '@shared/models/translatable';
 import { IsArray } from 'class-validator';
 
 export class PokemonDto extends CommonDto {
-  @Field({ description: 'Name of the pokemon' })
-  name: string;
+  @Field(() => [TranslatableObject], {
+    description: 'Name of the pokemon'
+  })
+  name: TranslatableObject[];
 
   @Field({ description: 'Pokedex Id of the pokemon' })
   pokedexId: string;
@@ -29,21 +32,23 @@ export class PokemonDto extends CommonDto {
   pokemonTypes: PokemonTypeDto[];
 
   @IsArray()
-  @Field(() => PokemonStat)
-  pokemonStats: PokemonStat[];
+  @Field(() => [PokemonStatObject])
+  pokemonStats: PokemonStatObject[];
 
-  @Field({ description: 'Description of the pokemon' })
-  description: string;
+  @Field(() => [TranslatableObject], {
+    description: 'Description of the pokemon'
+  })
+  description: TranslatableObject[];
 
   @IsArray()
-  @Field(() => PokemonStatDto)
-  pokemonMoves: PokemonStatDto[];
+  @Field(() => PokemonMoveDto)
+  pokemonMoves: PokemonMoveDto[];
 
   @Field({ description: 'Cycle of the pokemon' })
-  cycle: string;
+  cycle: number;
 
   @Field({ description: 'Step of the pokemon' })
-  step: string;
+  step: number;
 
   @Field(() => Int)
   captureRate: number;
@@ -57,9 +62,6 @@ export class PokemonDto extends CommonDto {
 
   @Field()
   genderRepartition: IPokemonGenderRepartition;
-
-  @Field({ description: 'Specy of the pokemon' })
-  specy: string;
 
   @Field(() => GenerationDto)
   generation: GenerationDto;

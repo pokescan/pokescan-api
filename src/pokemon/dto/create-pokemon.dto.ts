@@ -1,19 +1,28 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
 import { IPokemonGenderRepartition } from '@pokemon/interface/pokemon.interface';
+import { PokemonStatObject } from '@pokemon/models/pokemon-stat';
+import { TranslatableObject } from '@shared/models/translatable';
+import { Type } from 'class-transformer';
 import {
+  ArrayNotEmpty,
   IsArray,
   IsNotEmpty,
   IsNumber,
   IsObject,
-  IsString
+  IsString,
+  ValidateNested
 } from 'class-validator';
 
 @InputType()
 export class CreatePokemonDto {
-  @IsString()
-  @IsNotEmpty()
-  @Field()
-  name: string;
+  @IsArray()
+  @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => TranslatableObject)
+  @Field(() => [TranslatableObject], {
+    description: 'Name of the pokemon, multiple languages supported'
+  })
+  name: TranslatableObject[];
 
   @IsString()
   @IsNotEmpty()
@@ -41,29 +50,37 @@ export class CreatePokemonDto {
   pokemonTypes: string[];
 
   @IsArray()
-  @IsNotEmpty()
-  @Field(() => String)
-  pokemonStats: string[];
+  @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => PokemonStatObject)
+  @Field(() => [PokemonStatObject], {
+    description: 'Stats of the pokemon, multiple languages supported'
+  })
+  pokemonStats: PokemonStatObject[];
 
-  @IsString()
-  @IsNotEmpty()
-  @Field()
-  description: string;
+  @IsArray()
+  @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => TranslatableObject)
+  @Field(() => [TranslatableObject], {
+    description: 'Description of the pokemon, multiple languages supported'
+  })
+  description: TranslatableObject[];
 
   @IsArray()
   @IsNotEmpty()
   @Field(() => String)
   pokemonMoves: string[];
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  @Field()
-  cycle: string;
+  @Field(() => Int)
+  cycle: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  @Field()
-  step: string;
+  @Field(() => Int)
+  step: number;
 
   @IsNumber()
   @IsNotEmpty()
@@ -84,11 +101,6 @@ export class CreatePokemonDto {
   @IsNotEmpty()
   @Field()
   genderRepartition: IPokemonGenderRepartition;
-
-  @IsString()
-  @IsNotEmpty()
-  @Field()
-  specy: string;
 
   @IsString()
   @IsNotEmpty()

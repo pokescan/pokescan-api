@@ -2,9 +2,10 @@ import { Ability } from '@ability/schema/ability.schema';
 import { Generation } from '@generation/schema/generation.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { PokemonMove } from '@pokemon-move/schema/pokemon-move.schema';
-import { PokemonStat } from '@pokemon-stat/schema/pokemon-stat.schema';
 import { PokemonType } from '@pokemon-type/schema/pokemon-type.schema';
 import { IPokemonGenderRepartition } from '@pokemon/interface/pokemon.interface';
+import { PokemonStatObject } from '@pokemon/models/pokemon-stat';
+import { TranslatableObject } from '@shared/models/translatable';
 import { Document, Types } from 'mongoose';
 
 export type PokemonDocument = Pokemon & Document;
@@ -12,7 +13,7 @@ export type PokemonDocument = Pokemon & Document;
 @Schema({ timestamps: true, versionKey: false })
 export class Pokemon {
   @Prop({ required: true, trim: true, unique: true })
-  name: string;
+  name: TranslatableObject[];
 
   @Prop({ required: true, trim: true, unique: true })
   pokedexId: string;
@@ -39,16 +40,11 @@ export class Pokemon {
   })
   pokemonTypes: PokemonType[];
 
-  @Prop({
-    required: true,
-    type: [Types.ObjectId],
-    ref: PokemonStat.name,
-    autopopulate: true
-  })
-  pokemonStats: PokemonStat[];
+  @Prop({ required: true, trim: true, unique: true })
+  pokemonStats: PokemonStatObject[];
 
-  @Prop({ required: true, trim: true })
-  description: string;
+  @Prop({ required: true, trim: true, unique: true })
+  description: TranslatableObject[];
 
   @Prop({
     required: true,
@@ -59,10 +55,10 @@ export class Pokemon {
   pokemonMoves: PokemonMove[];
 
   @Prop({ required: true, trim: true })
-  cycle: string;
+  cycle: number;
 
   @Prop({ required: true, trim: true })
-  step: string;
+  step: number;
 
   @Prop({ required: true, trim: true })
   captureRate: number;
@@ -75,9 +71,6 @@ export class Pokemon {
 
   @Prop({ required: true, trim: true })
   genderRepartition: IPokemonGenderRepartition;
-
-  @Prop({ required: true, trim: true })
-  specy: string;
 
   @Prop({
     required: true,
