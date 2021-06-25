@@ -2,6 +2,7 @@ import { Ability } from '@ability/schema/ability.schema';
 import { Generation } from '@generation/schema/generation.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { PokemonMove } from '@pokemon-move/schema/pokemon-move.schema';
+import { PokemonStat } from '@pokemon-stat/schema/pokemon-stat.schema';
 import { PokemonType } from '@pokemon-type/schema/pokemon-type.schema';
 import { IPokemonGenderRepartition } from '@pokemon/interface/pokemon.interface';
 import { Document, Types } from 'mongoose';
