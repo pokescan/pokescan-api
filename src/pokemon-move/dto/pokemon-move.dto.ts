@@ -1,14 +1,15 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { CommonDto } from '@shared/models/common.dto';
+import { TranslatableObject } from '@shared/models/translatable';
 import { IPokemonMove } from '../interface/pokemon-move.interface';
 
 @ObjectType()
 export class PokemonMoveDto extends CommonDto {
-  @Field()
-  name: string;
+  @Field(() => [TranslatableObject])
+  name: TranslatableObject[];
 
-  @Field()
-  description: string;
+  @Field(() => [TranslatableObject])
+  description: TranslatableObject[];
 
   constructor(model?: IPokemonMove) {
     super(model);

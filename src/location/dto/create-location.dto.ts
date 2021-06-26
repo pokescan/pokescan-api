@@ -1,11 +1,20 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { TranslatableObject } from '@shared/models/translatable';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  ArrayNotEmpty,
+  IsArray,
+  IsNotEmpty,
+  IsString,
+  ValidateNested
+} from 'class-validator';
 
 @InputType()
 export class CreateLocationDto {
-  @IsString()
-  @IsNotEmpty()
+  @IsArray()
+  @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => TranslatableObject)
   @Field(() => [TranslatableObject], {
     description: 'Name of the location'
   })
