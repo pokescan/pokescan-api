@@ -2,12 +2,7 @@ import { AbilityModule } from '@ability/ability.module';
 import { GameVersionModule } from '@game-version/game-version.module';
 import { GenerationModule } from '@generation/generation.module';
 import { LocationModule } from '@location/location.module';
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -16,9 +11,9 @@ import { PokemonMoveModule } from '@pokemon-move/pokemon-move.module';
 import { PokemonTypeModule } from '@pokemon-type/pokemon-type.module';
 import { PokemonModule } from '@pokemon/pokemon.module';
 import { RegionModule } from '@region/region.module';
-import { LanguageMiddleware } from '@shared/middlewares/language.middleware';
 import { SharedModule } from '@shared/shared.module';
 import { EggGroupModule } from './egg-group/egg-group.module';
+import { PokemonEncounterModule } from './pokemon-encounter/pokemon-encounter.module';
 
 @Module({
   imports: [
@@ -48,15 +43,10 @@ import { EggGroupModule } from './egg-group/egg-group.module';
     LocationModule,
     GenerationModule,
     GameVersionModule,
-    EggGroupModule
+    EggGroupModule,
+    PokemonEncounterModule
   ],
   controllers: [],
   providers: []
 })
-export class AppModule implements NestModule {
-  public configure(consumer: MiddlewareConsumer): void {
-    consumer
-      .apply(LanguageMiddleware)
-      .forRoutes({ path: '*', method: RequestMethod.ALL });
-  }
-}
+export class AppModule {}
