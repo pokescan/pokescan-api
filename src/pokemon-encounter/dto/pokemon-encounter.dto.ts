@@ -44,7 +44,7 @@ export class PokemonEncounterDto extends CommonDto {
       this.name = model.name;
       this.gameVersion = model.gameVersion;
       this.location = model.location;
-      // this.pokemon = model.pokemon;
+      this.pokemon = model.pokemon;
       this.method = model.method;
       this.chance = model.chance;
       this.minLevel = model.minLevel;

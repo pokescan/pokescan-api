@@ -1,4 +1,6 @@
+import { TranslatableObject } from '@shared/models/translatable';
+
 export interface IPokemonMove {
-  name: string;
-  description: string;
+  name: TranslatableObject[];
+  description: TranslatableObject[];
 }
