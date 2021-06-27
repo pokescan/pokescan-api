@@ -17,7 +17,7 @@ export class Pokemon {
   name: TranslatableObject[];
 
   @Prop({ required: true, trim: true, unique: true })
-  pokedexId: string;
+  pokedexId: number;
 
   @Prop({ required: true, trim: true })
   weight: number;
