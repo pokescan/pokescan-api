@@ -21,10 +21,10 @@ export class PokemonResolver extends BaseResolver(PokemonDto) {
     @Args('pokemonInputDto') pokemonInputDto: CreatePokemonDto
   ): Promise<PokemonDto> {
     try {
-      const pokemonMove: PokemonDocument = await this.pokemonService.create(
+      const pokemon: PokemonDocument = await this.pokemonService.create(
         pokemonInputDto
       );
-      return new PokemonDto(pokemonMove);
+      return new PokemonDto(pokemon);
     } catch (error) {
       this.LOGGER.error(`Create request failed because: ${error}`);
 
@@ -77,7 +77,7 @@ export class PokemonResolver extends BaseResolver(PokemonDto) {
 
   private async findPokemonById(id: string): Promise<PokemonDto> {
     try {
-      const pokemon: PokemonDocument = await this.pokemonMoveService.find(id);
+      const pokemon: PokemonDocument = await this.pokemonService.find(id);
 
       return new PokemonDto(pokemon);
     } catch (error) {
