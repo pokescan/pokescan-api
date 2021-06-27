@@ -1,4 +1,4 @@
-import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, InputType, ObjectType } from '@nestjs/graphql';
 import { IsNotEmpty, IsNumber } from 'class-validator';
 
 @InputType('PokemonGenderRepartitionObjectInput')
@@ -6,11 +6,11 @@ import { IsNotEmpty, IsNumber } from 'class-validator';
 export class PokemonGenderRepartitionObject {
   @IsNumber()
   @IsNotEmpty()
-  @Field(() => Int, { description: 'Male pokemon' })
+  @Field(() => Float, { description: 'Male pokemon' })
   male: number;
 
   @IsNumber()
   @IsNotEmpty()
-  @Field(() => Int, { description: 'Female pokemon' })
+  @Field(() => Float, { description: 'Female pokemon' })
   female: number;
 }
