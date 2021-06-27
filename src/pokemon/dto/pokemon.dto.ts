@@ -68,9 +68,9 @@ export class PokemonDto extends CommonDto {
   @Field(() => GenerationDto)
   generation: GenerationDto;
 
-  @Field(() => PokemonDto)
+  @Field(() => PokemonDto, { nullable: true })
   previousPokemon: PokemonDto;
 
-  @Field(() => PokemonDto)
+  @Field(() => PokemonDto, { nullable: true })
   nextPokemon: PokemonDto;
 }

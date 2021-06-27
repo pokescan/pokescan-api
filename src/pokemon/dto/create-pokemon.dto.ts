@@ -112,12 +112,10 @@ export class CreatePokemonDto {
   generation: string;
 
   @IsString()
-  @IsNotEmpty()
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   previousPokemon: string;
 
   @IsString()
-  @IsNotEmpty()
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   nextPokemon: string;
 }
