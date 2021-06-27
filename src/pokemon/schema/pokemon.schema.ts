@@ -92,7 +92,7 @@ export class Pokemon {
   generation: Generation;
 
   @Prop({
-    required: true,
+    required: false,
     type: Types.ObjectId,
     ref: Pokemon.name,
     autopopulate: true
@@ -100,7 +100,7 @@ export class Pokemon {
   previousPokemon: Pokemon;
 
   @Prop({
-    required: true,
+    required: false,
     type: Types.ObjectId,
     ref: Pokemon.name,
     autopopulate: true
