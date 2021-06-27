@@ -31,7 +31,7 @@ export class Pokemon {
     ref: Ability.name,
     autopopulate: true
   })
-  abilites: Ability[];
+  abilities: Ability[];
 
   @Prop({
     required: true,

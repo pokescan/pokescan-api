@@ -11,7 +11,7 @@ export interface IPokemon {
   pokedexId: string;
   weight: number;
   height: number;
-  abilites: IAbility[];
+  abilities: IAbility[];
   pokemonTypes: IPokemonType[];
   pokemonStats: IPokemonStatObject[];
   description: ITranslatableObject[];

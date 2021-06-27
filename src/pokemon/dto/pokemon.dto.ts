@@ -27,7 +27,7 @@ export class PokemonDto extends CommonDto {
   height: number;
 
   @Field(() => AbilityDto)
-  abilites: AbilityDto[];
+  abilities: AbilityDto[];
 
   @IsArray()
   @Field(() => PokemonTypeDto)
