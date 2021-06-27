@@ -79,7 +79,7 @@ export class CreatePokemonDto {
 
   @IsNumber()
   @IsNotEmpty()
-  @Field(() => Int)
+  @Field(() => Float)
   step: number;
 
   @IsNumber()
