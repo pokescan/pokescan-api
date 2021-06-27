@@ -39,9 +39,7 @@ export class PokemonResolver extends BaseResolver(PokemonDto) {
   }
 
   @Query(() => PokemonDto, { name: 'pokemon' })
-  async findOne(
-    @Args('id', { type: () => String }) id: string
-  ): Promise<PokemonDto> {
+  async findOne(@Args('id') id: string): Promise<PokemonDto> {
     return this.findPokemonById(id);
   }
 
