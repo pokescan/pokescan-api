@@ -1,5 +1,5 @@
 import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 @InputType('PokemonStatObjectInput')
 @ObjectType('PokemonStatObjectOutput')
@@ -9,7 +9,7 @@ export class PokemonStatObject {
   @Field({ description: 'Label of the variable for this Pokemon Stat' })
   label: string;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
   @Field(() => Int, {
     description: 'Value of the variable for this Pokemon Stat'

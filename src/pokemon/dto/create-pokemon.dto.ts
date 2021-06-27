@@ -111,11 +111,9 @@ export class CreatePokemonDto {
   @Field(() => String)
   generation: string;
 
-  @IsString()
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   previousPokemon: string;
 
-  @IsString()
-  @Field(() => String, { nullable: true })
+  @Field({ nullable: true })
   nextPokemon: string;
 }
