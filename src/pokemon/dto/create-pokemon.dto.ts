@@ -1,4 +1,4 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, Float, InputType, Int } from '@nestjs/graphql';
 import { PokemonGenderRepartitionObject } from '@pokemon/models/pokemon-gender-repartition';
 import { PokemonStatObject } from '@pokemon/models/pokemon-stat';
 import { TranslatableObject } from '@shared/models/translatable';
@@ -31,12 +31,12 @@ export class CreatePokemonDto {
 
   @IsNumber()
   @IsNotEmpty()
-  @Field(() => Int)
+  @Field(() => Float)
   weight: number;
 
   @IsNumber()
   @IsNotEmpty()
-  @Field(() => Int)
+  @Field(() => Float)
   height: number;
 
   @IsArray()

@@ -1,7 +1,7 @@
 import { AbilityDto } from '@ability/dto/ability.dto';
 import { EggGroupDto } from '@egg-group/dto/egg-group.dto';
 import { GenerationDto } from '@generation/dto/generation.dto';
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
 import { PokemonMoveDto } from '@pokemon-move/dto/pokemon-move.dto';
 import { PokemonTypeDto } from '@pokemon-type/dto/pokemon-type.dto';
 import { PokemonGenderRepartitionObject } from '@pokemon/models/pokemon-gender-repartition';
@@ -20,10 +20,10 @@ export class PokemonDto extends CommonDto {
   @Field({ description: 'Pokedex Id of the pokemon' })
   pokedexId: string;
 
-  @Field(() => Int)
+  @Field(() => Float)
   weight: number;
 
-  @Field(() => Int)
+  @Field(() => Float)
   height: number;
 
   @Field(() => AbilityDto)
