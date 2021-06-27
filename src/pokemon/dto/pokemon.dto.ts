@@ -17,8 +17,8 @@ export class PokemonDto extends CommonDto {
   })
   name: TranslatableObject[];
 
-  @Field({ description: 'Pokedex Id of the pokemon' })
-  pokedexId: string;
+  @Field(() => Int, { description: 'Pokedex Id of the pokemon' })
+  pokedexId: number;
 
   @Field(() => Float)
   weight: number;
@@ -26,11 +26,11 @@ export class PokemonDto extends CommonDto {
   @Field(() => Float)
   height: number;
 
-  @Field(() => AbilityDto)
+  @Field(() => [AbilityDto])
   abilities: AbilityDto[];
 
   @IsArray()
-  @Field(() => PokemonTypeDto)
+  @Field(() => [PokemonTypeDto])
   pokemonTypes: PokemonTypeDto[];
 
   @IsArray()
@@ -43,13 +43,13 @@ export class PokemonDto extends CommonDto {
   description: TranslatableObject[];
 
   @IsArray()
-  @Field(() => PokemonMoveDto)
+  @Field(() => [PokemonMoveDto])
   pokemonMoves: PokemonMoveDto[];
 
-  @Field({ description: 'Cycle of the pokemon' })
+  @Field(() => Int, { description: 'Cycle of the pokemon' })
   cycle: number;
 
-  @Field({ description: 'Step of the pokemon' })
+  @Field(() => Int, { description: 'Step of the pokemon' })
   step: number;
 
   @Field(() => Int)
@@ -59,7 +59,7 @@ export class PokemonDto extends CommonDto {
   firstAppearenceGeneration: GenerationDto;
 
   @IsArray()
-  @Field(() => EggGroupDto)
+  @Field(() => [EggGroupDto])
   eggsGroup: EggGroupDto[];
 
   @Field(() => PokemonGenderRepartitionObject)

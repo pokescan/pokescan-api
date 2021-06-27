@@ -24,10 +24,10 @@ export class CreatePokemonDto {
   })
   name: TranslatableObject[];
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  @Field()
-  pokedexId: string;
+  @Field(() => Int)
+  pokedexId: number;
 
   @IsNumber()
   @IsNotEmpty()
@@ -41,12 +41,12 @@ export class CreatePokemonDto {
 
   @IsArray()
   @IsNotEmpty()
-  @Field(() => String)
+  @Field(() => [String])
   abilities: string[];
 
   @IsArray()
   @IsNotEmpty()
-  @Field(() => String)
+  @Field(() => [String])
   pokemonTypes: string[];
 
   @IsArray()
@@ -69,7 +69,7 @@ export class CreatePokemonDto {
 
   @IsArray()
   @IsNotEmpty()
-  @Field(() => String)
+  @Field(() => [String])
   pokemonMoves: string[];
 
   @IsNumber()
@@ -94,7 +94,7 @@ export class CreatePokemonDto {
 
   @IsArray()
   @IsNotEmpty()
-  @Field(() => String)
+  @Field(() => [String])
   eggsGroup: string[];
 
   @IsObject()
