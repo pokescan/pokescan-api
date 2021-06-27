@@ -49,7 +49,7 @@ export class PokemonDto extends CommonDto {
   @Field(() => Int, { description: 'Cycle of the pokemon' })
   cycle: number;
 
-  @Field(() => Int, { description: 'Step of the pokemon' })
+  @Field(() => Float, { description: 'Step of the pokemon' })
   step: number;
 
   @Field(() => Int)

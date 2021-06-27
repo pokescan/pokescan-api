@@ -1,4 +1,4 @@
 export interface IPokemonStatObject {
   label: string;
-  value: string;
+  value: number;
 }
