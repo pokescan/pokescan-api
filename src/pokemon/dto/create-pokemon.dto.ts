@@ -42,7 +42,7 @@ export class CreatePokemonDto {
   @IsArray()
   @IsNotEmpty()
   @Field(() => String)
-  abilites: string[];
+  abilities: string[];
 
   @IsArray()
   @IsNotEmpty()
