@@ -3,7 +3,17 @@ import { GenerationDto } from '@generation/dto/generation.dto';
 import { GenerationDocument } from '@generation/schema/generation.schema';
 import { GenerationService } from '@generation/service/generation.service';
 import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver
+} from '@nestjs/graphql';
+import { PokemonDto } from '@pokemon/dto/pokemon.dto';
+import { PokemonDocument } from '@pokemon/schema/pokemon.schema';
+import { PokemonService } from '@pokemon/service/pokemon/pokemon.service';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
 import { BaseResolver } from '@shared/functions/base-resolver';
 
@@ -11,7 +21,10 @@ import { BaseResolver } from '@shared/functions/base-resolver';
 export class GenerationResolver extends BaseResolver(GenerationDto) {
   private readonly LOGGER = new Logger(GenerationResolver.name);
 
-  constructor(private readonly generationService: GenerationService) {
+  constructor(
+    private readonly generationService: GenerationService,
+    private pokemonService: PokemonService
+  ) {
     super(generationService);
   }
 
@@ -33,6 +46,24 @@ export class GenerationResolver extends BaseResolver(GenerationDto) {
         );
       }
 
+      throw new BadRequestException(error);
+    }
+  }
+
+  @ResolveField('pokemons', () => [PokemonDto])
+  async pokemons(@Parent() generation: GenerationDto): Promise<PokemonDto[]> {
+    try {
+      const pokemons: PokemonDocument[] = await this.pokemonService.findByQueries(
+        {
+          firstAppearenceGeneration: generation.id.toString()
+        }
+      );
+
+      return pokemons.map(pokemon => new PokemonDto(pokemon));
+    } catch (error) {
+      this.LOGGER.error(
+        `Cannot find pokemons with generation id #${generation.id} because: ${error}`
+      );
       throw new BadRequestException(error);
     }
   }

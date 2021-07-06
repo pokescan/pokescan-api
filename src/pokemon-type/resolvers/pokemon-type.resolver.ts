@@ -1,9 +1,19 @@
 import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver
+} from '@nestjs/graphql';
 import { CreatePokemonTypeDto } from '@pokemon-type/dto/create-pokemon-type.dto';
 import { PokemonTypeDto } from '@pokemon-type/dto/pokemon-type.dto';
 import { PokemonTypeDocument } from '@pokemon-type/schema/pokemon-type.schema';
 import { PokemonTypeService } from '@pokemon-type/service/pokemon-type.service';
+import { PokemonDto } from '@pokemon/dto/pokemon.dto';
+import { PokemonDocument } from '@pokemon/schema/pokemon.schema';
+import { PokemonService } from '@pokemon/service/pokemon/pokemon.service';
 import { MongoHttpStatus } from '@shared/enums/mongo.enum';
 import { BaseResolver } from '@shared/functions/base-resolver';
 
@@ -11,7 +21,10 @@ import { BaseResolver } from '@shared/functions/base-resolver';
 export class PokemonTypeResolver extends BaseResolver(PokemonTypeDto) {
   private readonly LOGGER = new Logger(PokemonTypeResolver.name);
 
-  constructor(private readonly pokemonTypeService: PokemonTypeService) {
+  constructor(
+    private readonly pokemonTypeService: PokemonTypeService,
+    private pokemonService: PokemonService
+  ) {
     super(pokemonTypeService);
   }
 
@@ -33,6 +46,22 @@ export class PokemonTypeResolver extends BaseResolver(PokemonTypeDto) {
         );
       }
 
+      throw new BadRequestException(error);
+    }
+  }
+
+  @ResolveField('pokemons', () => [PokemonDto])
+  async pokemons(@Parent() pokemonType: PokemonTypeDto): Promise<PokemonDto[]> {
+    try {
+      const pokemons: PokemonDocument[] = await this.pokemonService.findByPokemonTypeId(
+        pokemonType.id.toString()
+      );
+
+      return pokemons.map(pokemon => new PokemonDto(pokemon));
+    } catch (error) {
+      this.LOGGER.error(
+        `Cannot find pokemons with pokemonType id #${pokemonType.id} because: ${error}`
+      );
       throw new BadRequestException(error);
     }
   }
