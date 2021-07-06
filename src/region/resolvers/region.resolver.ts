@@ -1,5 +1,15 @@
+import { LocationDto } from '@location/dto/location.dto';
+import { LocationDocument } from '@location/schema/location.schema';
+import { LocationService } from '@location/service/location.service';
 import { BadRequestException, ConflictException, Logger } from '@nestjs/common';
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver
+} from '@nestjs/graphql';
 import { CreateRegionDto } from '@region/dto/create-region.dto';
 import { RegionDto } from '@region/dto/region.dto';
 import { RegionDocument } from '@region/schema/region.schema';
@@ -11,7 +21,10 @@ import { BaseResolver } from '@shared/functions/base-resolver';
 export class RegionResolver extends BaseResolver(RegionDto) {
   private readonly LOGGER = new Logger(RegionResolver.name);
 
-  constructor(private readonly regionService: RegionService) {
+  constructor(
+    private readonly regionService: RegionService,
+    private readonly locationService: LocationService
+  ) {
     super(regionService);
   }
 
@@ -36,15 +49,48 @@ export class RegionResolver extends BaseResolver(RegionDto) {
   }
 
   @Query(() => RegionDto, { name: 'region' })
-  async findOne(
-    @Args('id', { type: () => String }) id: string
-  ): Promise<RegionDto> {
+  async findOne(@Args('id') id: string): Promise<RegionDto> {
     try {
       const region: RegionDocument = await this.regionService.find(id);
 
       return new RegionDto(region);
     } catch (error) {
       this.LOGGER.error(`Cannot find region by its id ${id} because: ${error}`);
+
+      throw new BadRequestException(error);
+    }
+  }
+
+  @ResolveField('locations', () => [LocationDto])
+  async findLocationsRelatedToRegion(
+    @Parent() region: RegionDto
+  ): Promise<LocationDto[]> {
+    console.log(
+      '🚀 ~ file: region.resolver.ts ~ line 68 ~ RegionResolver ~ classRegionResolverextendsBaseResolver ~ region',
+      region
+    );
+    try {
+      // const locations: LocationDocument[] = await this.locationService.findByQueries(
+      //   {
+      //     region: region.id
+      //   }
+      // );
+
+      const locations: LocationDocument[] = await this.locationService.aggregate(
+        [
+          {
+            $match: {
+              region: region.id
+            }
+          }
+        ]
+      );
+
+      return locations.map(location => new LocationDto(location));
+    } catch (error) {
+      this.LOGGER.error(
+        `Cannot find locations for region with id ${region.id} because: ${error}`
+      );
 
       throw new BadRequestException(error);
     }
