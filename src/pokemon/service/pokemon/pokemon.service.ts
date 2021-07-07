@@ -10,7 +10,18 @@ export class PokemonService extends AbstractService<
   PokemonDocument,
   CreatePokemonDto
 > {
-  constructor(@InjectModel(Pokemon.name) pokemonModel: Model<PokemonDocument>) {
+  constructor(
+    @InjectModel(Pokemon.name)
+    private readonly pokemonModel: Model<PokemonDocument>
+  ) {
     super(pokemonModel);
+  }
+
+  findByPokemonTypeId(pokemonTypeId: string): Promise<PokemonDocument[]> {
+    return this.pokemonModel
+      .find()
+      .where('pokemonTypes')
+      .in([pokemonTypeId])
+      .exec();
   }
 }
