@@ -95,6 +95,7 @@ export class PokemonDto extends CommonDto {
       this.pokedexId = model.pokedexId;
       this.pokemonMoves = model.pokemonMoves;
       this.pokemonStats = model.pokemonStats;
+      this.pokemonTypes = model.pokemonTypes;
       this.step = model.step;
     }
   }
