@@ -13,7 +13,7 @@ export type PokemonDocument = Pokemon & Document;
 
 @Schema({ timestamps: true, versionKey: false })
 export class Pokemon {
-  @Prop({ required: true, trim: true, unique: true })
+  @Prop({ required: true, trim: true })
   name: TranslatableObject[];
 
   @Prop({ required: true, trim: true, unique: true })
