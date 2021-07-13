@@ -41,7 +41,7 @@ export class Pokemon {
   })
   pokemonTypes: PokemonType[];
 
-  @Prop({ required: true, trim: true, unique: true })
+  @Prop({ required: true, trim: true })
   pokemonStats: PokemonStatObject[];
 
   @Prop({ required: true, trim: true, unique: true })
